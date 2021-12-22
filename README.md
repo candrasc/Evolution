@@ -3,10 +3,7 @@ Evolution Simulator
 
 ## Base of Game
 
-2 main classes of units:
-- Predator (consumes prey)
-- Prey (consumes food)
-- Food (randomly spawns)
+Units can have a chance to fight and reproduce which depends on their similarity to the unit they encounter. Winning a fight by a large enough margin yeilds food (this is how predator units will develop). 
 
 #### Each unit will have survival stats:
 - Health (can expand later if wanted to hunger, thirst, hp)
