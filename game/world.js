@@ -7,36 +7,47 @@ export class World {
     this.foods = []
   }
 
-  genUnits(numUnits, unitSize, unitV) {
+  genUnits(numUnits, unitSize, unitV, lifeDecay) {
     for (let i = 0; i < numUnits; i++) {
-      const left = getRandomInt(92) + 4
-      const bottom = getRandomInt(92) + 4
+      const left = getRandomInt(100 - unitSize)
+      const bottom = getRandomInt(100 - unitSize)
       const health = getRandomInt(100)
       const attack = getRandomInt(100)
       const defense = getRandomInt(100)
       const lifespan = getRandomInt(100)
       const foodEfficiency = getRandomInt(100)
+      const evasion = getRandomInt(100)
+
+      let vX
+      let vY
+      if (unitV == null) {
+        vX = Math.random()
+        vY = Math.random()
+      } else {
+        vX = unitV
+        vY = unitV
+      }
 
       const unitElem = Unit.createUnitElem(left, bottom, unitSize)
       const unit = new Unit(
         unitElem,
-        unitV,
-        unitV,
+        vX,
+        vY,
+        lifeDecay,
         health,
         attack,
         defense,
         lifespan,
-        foodEfficiency
+        foodEfficiency,
+        evasion
       )
       this.units.addUnit(unit)
-      //console.log(unit.getStats())
     }
   }
 
   incrementUnits(delta) {
     this.units.increment(delta)
-    let collisions = this.units.checkCollisions()
-    //if (collisions) console.log(collisions)
+    let collisions = this.units.manageCollisions()
   }
 }
 
