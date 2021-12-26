@@ -1,0 +1,66 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.world {
+  overflow: hidden;
+  position: relative;
+  border-color: red;
+  border-style: solid;
+  height: 800px;
+  width: 800px;
+}
+
+.unit {
+  position: absolute;
+  width: calc(var(--size) * 1%);
+  height: calc(var(--size) * 1%);
+  border-radius: 40%;
+
+  overflow: hidden;
+  /* transform: translateX(calc(var(--left) * 100px))
+    translateY(calc(var(--bottom) * 100px)); */
+  left: calc(var(--left) * 1%);
+  bottom: calc(var(--bottom) * 1%);
+  background-color: rgb(var(--red), var(--green), var(--blue));
+}
+
+/* .test {
+  position: absolute;
+  width: 20%;
+  height: 20%;
+  background-color: rgb(10, 256, 200);
+  z-index: 100;
+} */
+
+/* .unit::before {
+  content: "";
+  position: absolute;
+  background-size: cover;
+  width: 85%;
+  height: 85%;
+  border-radius: 30%;
+  margin: 8%;
+  background: rgb(0, 0, 0);
+  animation: rotation 4s infinite linear;
+}
+
+.unit::after {
+  --color: 178;
+  content: "";
+  position: absolute;
+  width: 85%;
+  height: 85%;
+  background: rgb(var(--color), 69, 182);
+  margin: 8%;
+  border-radius: 30%;
+  animation: rotation 2s infinite linear;
+} */
+
+/* @keyframes rotation {
+  to {
+    transform: rotate(360deg);
+  }
+} */
