@@ -22,6 +22,8 @@ export class Unit {
     this.leftPos = getCustomProperty(this.elem, "--left")
     this.bottomPos = getCustomProperty(this.elem, "--bottom")
     this.size = getCustomProperty(this.elem, "--size")
+    this.currLife = lifespan
+    this.lifeDecay = 0.1
 
     this.coreStats = {
       health: health,
@@ -101,6 +103,10 @@ export class Unit {
     console.log(similarityVecNorm)
   }
 
+  isAlive() {
+    return this.currLife > 0
+  }
+
   getStats() {
     return this.coreStats
   }
@@ -139,6 +145,10 @@ export class Unit {
     setCustomProperty(this.elem, "--bottom", this.bottomPos)
   }
 
+  incrementLife() {
+    this.currLife -= this.lifeDecay
+  }
+
   destroyElem() {
     // Used to clean out element before removing the object
     // Test without this and see what happens
@@ -154,9 +164,16 @@ export class Units {
     this.units.push(unit)
   }
   increment(delta) {
-    this.units.forEach((unit) => {
-      unit.incrementPosition(delta)
-    })
+    for (let i = this.units.length - 1; i >= 0; i--) {
+      let unit = this.units[i]
+      if (unit.isAlive()) {
+        unit.incrementPosition(delta)
+        unit.incrementLife()
+      } else {
+        unit.destroyElem()
+        this.units.splice(i, 1)
+      }
+    }
   }
   checkCollisions() {
     // split vector into 3. That wway you can take cos sim of each vector and use it for rgb values
