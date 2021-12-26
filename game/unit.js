@@ -3,7 +3,12 @@ import {
   setCustomProperty,
 } from "./utils/updateCustomProperty.js"
 
-import { normalize, cosineSim, dotProduct } from "./utils/mathy.js"
+import {
+  normalize,
+  cosineSim,
+  dotProduct,
+  getRandomInt,
+} from "./utils/mathy.js"
 
 let worldElem = document.querySelector("[data-world]")
 
@@ -26,6 +31,7 @@ export class Unit {
     this.size = getCustomProperty(this.elem, "--size")
     this.currAge = 0
     this.lifeDecay = lifeDecay
+    this.hungerDecay = 0.2
 
     this.coreStats = {
       health: health,
@@ -38,6 +44,7 @@ export class Unit {
     this.__normStats()
     this.__setColor()
     this.currHealth = this.coreStats.health
+    this.hunger = 100
     this.yVel = yVel
     this.xVel = xVel
     this.inactiveFrames = 0
@@ -105,7 +112,11 @@ export class Unit {
   }
 
   isAlive() {
-    return this.currAge <= this.coreStats.lifespan && this.currHealth > 0
+    return (
+      this.currAge <= this.coreStats.lifespan &&
+      this.currHealth > 0 &&
+      this.hunger > 0
+    )
   }
 
   isActive() {
@@ -158,12 +169,16 @@ export class Unit {
     setCustomProperty(this.elem, "--bottom", this.bottomPos)
   }
 
-  incrementAge() {
-    this.currAge += this.lifeDecay
+  incrementAge(value) {
+    this.currAge += value * this.lifeDecay
   }
 
   incrementHealth(value) {
-    this.currHealth = Math.min(this.currHealth + value, 100)
+    this.currHealth = Math.min(this.currHealth + value, this.coreStats.health)
+  }
+
+  incrementHunger(value) {
+    this.hunger += value * this.hungerDecay
   }
 
   destroyElem() {
@@ -185,8 +200,9 @@ export class Units {
       let unit = this.units[i]
       if (unit.isAlive()) {
         unit.incrementPosition(delta)
-        unit.incrementAge()
+        unit.incrementAge(1)
         unit.incrementInactive(-1)
+        unit.incrementHunger(-1)
       } else {
         unit.destroyElem()
         this.units.splice(i, 1)
@@ -208,14 +224,15 @@ export class Units {
         if (collisions.has(unitA) || collisions.has(unitB)) continue
 
         if (this.__isCollision(unitA, unitB)) {
-          this.fight(unitA, unitB)
+          //this.fight(unitA, unitB)
+          this.reproduce(unitA, unitB)
           collisions.add(unitA)
           collisions.add(unitB)
           unitA.incrementInactive(10)
           unitB.incrementInactive(10)
           unitA.xVel *= -1
-          unitA.yVel *= -1
-          unitB.xVel *= -1
+          // unitA.yVel *= -1
+          // unitB.xVel *= -1
           unitB.yVel *= -1
 
           // a unit can only interact with one other unit at a time
@@ -252,6 +269,45 @@ export class Units {
       unit1.incrementHealth(-1 * damageToOne)
       unit2.incrementHealth(-1 * damageToTwo)
     }
+  }
+
+  reproduce(unit1, unit2) {
+    const stats1 = unit1.getStats()
+    const stats2 = unit2.getStats()
+    const healthRatio1 = stats1.health / unit1.getCurrHealth()
+    const healthRatio2 = stats2.health / unit2.getCurrHealth()
+
+    if (healthRatio1 < 0.25 || healthRatio2 < 0.25) return
+
+    const left = unit1.getRect().left
+    const bottom = unit1.getRect().bottom
+    const health = getRandomInt(100)
+    const attack = getRandomInt(100)
+    const defense = getRandomInt(100)
+    const lifespan = getRandomInt(100)
+    const foodEfficiency = getRandomInt(100)
+    const evasion = getRandomInt(100)
+    const lifeDecay = unit1.lifeDecay
+
+    const vX = Math.random()
+    const vY = Math.random()
+
+    const unitElem = Unit.createUnitElem(left, bottom, unit1.size)
+    const unit = new Unit(
+      unitElem,
+      vX,
+      vY,
+      lifeDecay,
+      health,
+      attack,
+      defense,
+      lifespan,
+      foodEfficiency,
+      evasion
+    )
+    // Give some time before the spawned unit can interact. Prevents instant incest
+    unit.incrementInactive(50)
+    this.units.push(unit)
   }
 
   __isCollision(unit1, unit2) {

@@ -35,3 +35,7 @@ export function normalize(arr) {
 
   return arr
 }
+
+export function getRandomInt(max) {
+  return Math.floor(Math.random() * max)
+}

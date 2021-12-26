@@ -1,10 +1,10 @@
 import { Unit } from "./game/unit.js"
 import { World } from "./game/world.js"
 
-const NUM_UNITS = 500
-const UNIT_SIZE = 3
+const NUM_UNITS = 20
+const UNIT_SIZE = 4
 const UNIT_VELOCITY = null
-const LIFE_DECAY = 0.0
+const LIFE_DECAY = 0.1
 const FPS = 30
 const FPS_INTERVAL = 1000 / FPS
 // Speedscale can be manipulated by user to slow or increase sim
