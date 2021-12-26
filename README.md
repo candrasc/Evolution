@@ -2,25 +2,26 @@
 Evolution Simulator
 
 ## Base of Game
+Units have a set of core stats that sum to 100 in total. Currently we have Health, Attak, Defense, Food Effeciency, Life Span.
 
-Units can have a chance to fight and reproduce which depends on their similarity to the unit they encounter. Winning a fight by a large enough margin yeilds food (this is how predator units will develop). 
+##Interaction
 
-#### Each unit will have survival stats:
-- Health (can expand later if wanted to hunger, thirst, hp)
+Units can either fight, reproduce, or do nothing upon contact.
 
-#### Also will have attribute stats:
-These stats will sum up to 100, so units don't just evolve to have max everything
-- Speed
-- Offense
-- Defense
+The decision to fight or breed is based on the Cosine Similarity of the corestats of the two units. The more similar the more likely to reproduce, and the more different, the more likely they fight.
 
-#### Finally, we have reproductive stats
-All units will be able to reproduce (there are no sexes) although it could be fun to add a sexiness stat and see how it propogates.
 
-Upon collision with another unit of the same type, there is a chance to reproduce. If successful, there will be a higher liklihood that you receive attribute stats similar to the parents.
-- Age (how many time steps until the unit dies)
-- Chance of reproducing
-- Liklihood to produce x offspring (use a normal distribution)
+### Fighting:
+- Damage is caclulated by the max of one units offense less the other units defense or 0; whichever is greater
+
+- If unitA can kill unitB, but unitB cannot kill unitA, then unit A will kill unit B and the health it took from unitB to its own health - And vice versa
+
+- If neither unit can kill each other or they can both kill each other, they both do damage to each other.
+
+### Reproducing
+
+If the units choose to reproduce, they can only do so if they both have sufficient health (above 25% of their max health). If this condition is not met they will not do anything
+
 
 ## Possible additions
 
