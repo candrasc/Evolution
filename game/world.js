@@ -1,6 +1,7 @@
 import { Unit, Units } from "./unit.js"
 import { Food } from "./food.js"
 import { getRandomInt } from "./utils/mathy.js"
+import { cleanUpFights, cleanUpLoves } from "./utils/animations.js"
 
 export class World {
   constructor(damageMultiplier, mutationProba) {
@@ -61,5 +62,10 @@ export class World {
     this.units.incrementUnits(delta)
     this.units.incrementFood()
     this.units.manageCollisions()
+  }
+
+  cleanUpAnimations() {
+    cleanUpFights()
+    cleanUpLoves()
   }
 }

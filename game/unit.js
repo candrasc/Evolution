@@ -10,6 +10,8 @@ import {
   getRandomInt,
 } from "./utils/mathy.js"
 
+import { spawnFight, spawnLove } from "./utils/animations.js"
+
 let worldElem = document.querySelector("[data-world]")
 export class Unit {
   constructor(
@@ -269,7 +271,7 @@ export class Units {
         if (this.__isCollision(unitA, unitB)) {
           const rand = Math.random()
           const similarity = this.__simScore(unitA, unitB)
-          if (similarity > rand) this.reproduce(unitA, unitB)
+          if (0.5 >= rand) this.reproduce(unitA, unitB)
           else this.fight(unitA, unitB)
 
           collisions.add(unitA)
@@ -296,6 +298,7 @@ export class Units {
   }
 
   fight(unit1, unit2) {
+    const unitRect = unit1.getRect()
     const stats1 = unit1.getStats()
     const stats2 = unit2.getStats()
 
@@ -315,9 +318,11 @@ export class Units {
     if (kill1 && !kill2) {
       unit2.incrementHealth(health1)
       unit1.incrementHealth(-1 * damageToOne)
+      spawnFight(unitRect.left, unitRect.bottom)
     } else if (kill2 && !kill1) {
       unit1.incrementHealth(health2)
       unit2.incrementHealth(-1 * damageToTwo)
+      spawnFight(unitRect.left, unitRect.bottom)
     } else {
       unit1.incrementHealth(-1 * damageToOne)
       unit2.incrementHealth(-1 * damageToTwo)
@@ -372,6 +377,7 @@ export class Units {
     // Give some time before the spawned unit can interact. Prevents instant incest
     unit.incrementInactive(50)
     this.units.push(unit)
+    spawnLove(left, bottom)
   }
 
   __isCollision(unit1, unit2) {
