@@ -3,9 +3,11 @@ import { Food } from "./food.js"
 import { getRandomInt } from "./utils/mathy.js"
 
 export class World {
-  constructor() {
+  constructor(damageMultiplier, mutationProba) {
     this.elem = document.querySelector("[data-world]")
-    this.units = new Units()
+    this.units = new Units(damageMultiplier)
+    this.mutationProba = mutationProba
+    console.log(mutationProba)
   }
 
   spawnUnits(numUnits, unitSize, unitV, lifeDecay) {
@@ -17,7 +19,6 @@ export class World {
       const defense = getRandomInt(100)
       const lifespan = getRandomInt(100)
       const foodEfficiency = getRandomInt(100)
-      const evasion = getRandomInt(100)
 
       let vX
       let vY
@@ -35,12 +36,12 @@ export class World {
         vX,
         vY,
         lifeDecay,
+        this.mutationProba,
         health,
         attack,
         defense,
         lifespan,
-        foodEfficiency,
-        evasion
+        foodEfficiency
       )
       this.units.addUnit(unit)
     }

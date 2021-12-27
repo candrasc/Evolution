@@ -4,13 +4,24 @@
   box-sizing: border-box;
 }
 
-.world {
+.info {
   overflow: hidden;
   position: relative;
+  border-color: rgb(17, 0, 255);
+  border-style: solid;
+  height: 50rem;
+  width: 20rem;
+  float: right;
+}
+
+.world {
+  overflow: hidden;
+  position: absolute;
   border-color: red;
   border-style: solid;
-  height: 800px;
-  width: 800px;
+  height: 50rem;
+  width: 50rem;
+  float: left;
 }
 
 .unit {

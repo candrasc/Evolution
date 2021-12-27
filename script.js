@@ -1,18 +1,24 @@
 import { Unit } from "./game/unit.js"
 import { World } from "./game/world.js"
 
-const NUM_UNITS = 200
-const NUM_FOOD = 10
-const FOOD_SPAWN_RATE = 10
+const NUM_UNITS = 50
+const NUM_FOOD = 0
+const FOOD_SPAWN_RATE = 100
+const UNIT_DAMAGE_MULTIPLIER = 1
+const MUTATION_PROBA = 1 / 100
+const LIFE_DECAY = 0
+const HUNGER_DECAY = 0.1
+const FOOD_VALUE = 50
+
 const UNIT_SIZE = 2
 const FOOD_SIZE = 3
 const UNIT_VELOCITY = null
-const LIFE_DECAY = 0.1
+
 const FPS = 30
 const FPS_INTERVAL = 1000 / FPS
 // Speedscale can be manipulated by user to slow or increase sim
 let speedScale = 0.02
-let world = new World()
+let world = new World(UNIT_DAMAGE_MULTIPLIER, MUTATION_PROBA)
 // For fPS capping
 let now, then, elapsed
 
@@ -32,6 +38,7 @@ function handleStart() {
 }
 
 let lastTime
+let frameCount = 0
 function update(time) {
   if (lastTime == null) {
     lastTime = time
@@ -44,9 +51,17 @@ function update(time) {
   if (elapsed > FPS_INTERVAL) {
     const delta = time - lastTime
     world.incrementUnits(delta * speedScale)
-    world.spawnFood(FOOD_SPAWN_RATE, FOOD_SIZE)
+
     lastTime = time
     then = now - (elapsed % FPS_INTERVAL)
+    if (frameCount >= FPS / FOOD_SPAWN_RATE) {
+      world.spawnFood(1, FOOD_SIZE)
+      frameCount = 0
+    } else {
+      frameCount += 1
+    }
+
+    console.log(world.units.units.length)
   }
   window.requestAnimationFrame(update)
 }

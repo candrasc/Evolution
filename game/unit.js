@@ -11,19 +11,18 @@ import {
 } from "./utils/mathy.js"
 
 let worldElem = document.querySelector("[data-world]")
-
 export class Unit {
   constructor(
     elem,
     yVel,
     xVel,
     lifeDecay,
+    mutationProba,
     health,
     attack,
     defense,
     lifespan,
-    foodEfficiency,
-    evasion
+    foodEfficiency
   ) {
     this.elem = elem
     this.leftPos = getCustomProperty(this.elem, "--left")
@@ -31,7 +30,8 @@ export class Unit {
     this.size = getCustomProperty(this.elem, "--size")
     this.currAge = 0
     this.lifeDecay = lifeDecay
-    this.hungerDecay = 0.2
+    this.mutationProba = mutationProba
+    this.hungerDecay = 0.2 // Refactor as world property that is called when we increment
 
     this.coreStats = {
       health: health,
@@ -39,15 +39,15 @@ export class Unit {
       defense: defense,
       lifespan: lifespan,
       foodEfficiency: foodEfficiency,
-      evasion: evasion,
     }
-    this.__normStats()
-    this.__setColor()
     this.currHealth = this.coreStats.health
     this.hunger = 50
     this.yVel = yVel
     this.xVel = xVel
     this.inactiveFrames = 0
+    this.__mutate()
+    this.__normStats()
+    this.__setColor()
   }
 
   static createUnitElem(left, bottom, size) {
@@ -59,6 +59,17 @@ export class Unit {
     setCustomProperty(unit, "--size", size)
     worldElem.append(unit)
     return unit
+  }
+
+  __mutate() {
+    const statKeys = Object.keys(this.coreStats)
+    statKeys.forEach((key) => {
+      let mutationRoll = Math.random()
+      if (mutationRoll < this.mutationProba) {
+        this.coreStats[key] = getRandomInt(100)
+        console.log("MUTATE")
+      }
+    })
   }
 
   __normStats() {
@@ -203,9 +214,12 @@ export class Unit {
 }
 
 export class Units {
-  constructor() {
+  constructor(damageMultiplier) {
     this.units = []
     this.foods = []
+    this.DAMAGE_MULTIPLIER = damageMultiplier
+    this.INTERACTION_COOLDOWN = 10
+    this.FOOD_VALUE = 50
   }
   addUnit(unit) {
     this.units.push(unit)
@@ -260,8 +274,8 @@ export class Units {
 
           collisions.add(unitA)
           collisions.add(unitB)
-          unitA.incrementInactive(10)
-          unitB.incrementInactive(10)
+          unitA.incrementInactive(this.INTERACTION_COOLDOWN)
+          unitB.incrementInactive(this.INTERACTION_COOLDOWN)
           // gives more random movements
           unitA.xVel *= -1
           unitB.yVel *= -1
@@ -273,7 +287,7 @@ export class Units {
 
         if (!unit.isActive()) continue
         if (this.__isCollision(unit, food)) {
-          unit.incrementHunger(20)
+          unit.incrementHunger(this.FOOD_VALUE)
           food.setIsActive(false)
         }
       }
@@ -285,8 +299,10 @@ export class Units {
     const stats1 = unit1.getStats()
     const stats2 = unit2.getStats()
 
-    let damageToOne = Math.max(stats2.attack - stats1.defense, 0)
-    let damageToTwo = Math.max(stats1.attack - stats2.defense, 0)
+    let damageToOne =
+      Math.max(stats2.attack - stats1.defense, 0) * this.DAMAGE_MULTIPLIER
+    let damageToTwo =
+      Math.max(stats1.attack - stats2.defense, 0) * this.DAMAGE_MULTIPLIER
     let health1 = unit1.getCurrHealth()
     let health2 = unit2.getCurrHealth()
 
@@ -299,11 +315,9 @@ export class Units {
     if (kill1 && !kill2) {
       unit2.incrementHealth(health1)
       unit1.incrementHealth(-1 * damageToOne)
-      console.log("kill 1")
     } else if (kill2 && !kill1) {
       unit1.incrementHealth(health2)
       unit2.incrementHealth(-1 * damageToTwo)
-      console.log("kill 2")
     } else {
       unit1.incrementHealth(-1 * damageToOne)
       unit2.incrementHealth(-1 * damageToTwo)
@@ -324,7 +338,6 @@ export class Units {
       hunger1 < 45 ||
       hunger2 < 45
     ) {
-      console.log("too hungry or hurt")
       return
     }
 
@@ -332,13 +345,13 @@ export class Units {
     const left = unit1.getRect().left
     const bottom = unit1.getRect().bottom
     const lifeDecay = unit1.lifeDecay
+    const mutationProba = unit1.mutationProba
     // set core attributes
     const health = (stats1.health + stats2.health) / 2
     const attack = (stats1.attack + stats2.attack) / 2
     const defense = (stats1.defense + stats2.defense) / 2
     const lifespan = (stats1.lifespan + stats2.lifespan) / 2
     const foodEfficiency = (stats1.foodEfficiency + stats2.foodEfficiency) / 2
-    const evasion = (stats1.evasion + stats2.evasion) / 2
 
     const vX = Math.random()
     const vY = Math.random()
@@ -349,12 +362,12 @@ export class Units {
       vX,
       vY,
       lifeDecay,
+      mutationProba,
       health,
       attack,
       defense,
       lifespan,
-      foodEfficiency,
-      evasion
+      foodEfficiency
     )
     // Give some time before the spawned unit can interact. Prevents instant incest
     unit.incrementInactive(50)
