@@ -20,11 +20,19 @@
   border-radius: 40%;
 
   overflow: hidden;
-  /* transform: translateX(calc(var(--left) * 100px))
-    translateY(calc(var(--bottom) * 100px)); */
+
   left: calc(var(--left) * 1%);
   bottom: calc(var(--bottom) * 1%);
   background-color: rgb(var(--red), var(--green), var(--blue));
+}
+
+.food {
+  position: absolute;
+  width: calc(var(--size) * 1%);
+  height: calc(var(--size) * 1%);
+  border-radius: 0%;
+  left: calc(var(--left) * 1%);
+  bottom: calc(var(--bottom) * 1%);
 }
 
 /* .test {

@@ -44,7 +44,7 @@ export class Unit {
     this.__normStats()
     this.__setColor()
     this.currHealth = this.coreStats.health
-    this.hunger = 100
+    this.hunger = 50
     this.yVel = yVel
     this.xVel = xVel
     this.inactiveFrames = 0
@@ -111,6 +111,16 @@ export class Unit {
     setCustomProperty(this.elem, "--blue", similarityVecNorm[2] * 256)
   }
 
+  getVecRep() {
+    const keys = Object.keys(this.coreStats)
+
+    let vec = []
+    keys.forEach((key) => {
+      vec.push(this.coreStats[key])
+    })
+    return vec
+  }
+
   isAlive() {
     return (
       this.currAge <= this.coreStats.lifespan &&
@@ -169,7 +179,7 @@ export class Unit {
     setCustomProperty(this.elem, "--bottom", this.bottomPos)
   }
 
-  incrementAge(value) {
+  decayAge(value) {
     this.currAge += value * this.lifeDecay
   }
 
@@ -177,8 +187,12 @@ export class Unit {
     this.currHealth = Math.min(this.currHealth + value, this.coreStats.health)
   }
 
-  incrementHunger(value) {
+  decayHunger(value) {
     this.hunger += value * this.hungerDecay
+  }
+
+  incrementHunger(value) {
+    this.hunger = Math.min(this.hunger + value, 100)
   }
 
   destroyElem() {
@@ -191,24 +205,39 @@ export class Unit {
 export class Units {
   constructor() {
     this.units = []
+    this.foods = []
   }
   addUnit(unit) {
     this.units.push(unit)
   }
-  increment(delta) {
+  addFood(food) {
+    this.foods.push(food)
+  }
+
+  incrementUnits(delta) {
     for (let i = this.units.length - 1; i >= 0; i--) {
       let unit = this.units[i]
       if (unit.isAlive()) {
         unit.incrementPosition(delta)
-        unit.incrementAge(1)
+        unit.decayAge(1)
         unit.incrementInactive(-1)
-        unit.incrementHunger(-1)
+        unit.decayHunger(-1)
       } else {
         unit.destroyElem()
         this.units.splice(i, 1)
       }
     }
   }
+  incrementFood() {
+    for (let i = this.foods.length - 1; i >= 0; i--) {
+      let food = this.foods[i]
+      if (!food.isActive()) {
+        food.destroyElem()
+        this.foods.splice(i, 1)
+      }
+    }
+  }
+
   manageCollisions() {
     // Only let two units interact at once
 
@@ -224,18 +253,28 @@ export class Units {
         if (collisions.has(unitA) || collisions.has(unitB)) continue
 
         if (this.__isCollision(unitA, unitB)) {
-          //this.fight(unitA, unitB)
-          this.reproduce(unitA, unitB)
+          const rand = Math.random()
+          const similarity = this.__simScore(unitA, unitB)
+          if (similarity > rand) this.reproduce(unitA, unitB)
+          else this.fight(unitA, unitB)
+
           collisions.add(unitA)
           collisions.add(unitB)
           unitA.incrementInactive(10)
           unitB.incrementInactive(10)
+          // gives more random movements
           unitA.xVel *= -1
-          // unitA.yVel *= -1
-          // unitB.xVel *= -1
           unitB.yVel *= -1
+        }
+      }
+      for (let j = 0; j < this.foods.length; j++) {
+        let unit = this.units[i]
+        let food = this.foods[j]
 
-          // a unit can only interact with one other unit at a time
+        if (!unit.isActive()) continue
+        if (this.__isCollision(unit, food)) {
+          unit.incrementHunger(20)
+          food.setIsActive(false)
         }
       }
     }
@@ -274,20 +313,32 @@ export class Units {
   reproduce(unit1, unit2) {
     const stats1 = unit1.getStats()
     const stats2 = unit2.getStats()
-    const healthRatio1 = stats1.health / unit1.getCurrHealth()
-    const healthRatio2 = stats2.health / unit2.getCurrHealth()
+    const healthRatio1 = unit1.getCurrHealth() / stats1.health
+    const healthRatio2 = unit2.getCurrHealth() / stats2.health
+    const hunger1 = unit1.hunger
+    const hunger2 = unit2.hunger
 
-    if (healthRatio1 < 0.25 || healthRatio2 < 0.25) return
+    if (
+      healthRatio1 < 0.45 ||
+      healthRatio2 < 0.45 ||
+      hunger1 < 45 ||
+      hunger2 < 45
+    ) {
+      console.log("too hungry or hurt")
+      return
+    }
 
+    // set constant attributes
     const left = unit1.getRect().left
     const bottom = unit1.getRect().bottom
-    const health = getRandomInt(100)
-    const attack = getRandomInt(100)
-    const defense = getRandomInt(100)
-    const lifespan = getRandomInt(100)
-    const foodEfficiency = getRandomInt(100)
-    const evasion = getRandomInt(100)
     const lifeDecay = unit1.lifeDecay
+    // set core attributes
+    const health = (stats1.health + stats2.health) / 2
+    const attack = (stats1.attack + stats2.attack) / 2
+    const defense = (stats1.defense + stats2.defense) / 2
+    const lifespan = (stats1.lifespan + stats2.lifespan) / 2
+    const foodEfficiency = (stats1.foodEfficiency + stats2.foodEfficiency) / 2
+    const evasion = (stats1.evasion + stats2.evasion) / 2
 
     const vX = Math.random()
     const vY = Math.random()
@@ -323,5 +374,11 @@ export class Units {
       (rect1.top <= rect2.top && rect1.top >= rect2.bottom)
 
     return overlapX && overlapY
+  }
+
+  __simScore(unit1, unit2) {
+    let vec1 = unit1.getVecRep()
+    let vec2 = unit2.getVecRep()
+    return cosineSim(vec1, vec2)
   }
 }

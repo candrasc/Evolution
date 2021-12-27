@@ -1,8 +1,11 @@
 import { Unit } from "./game/unit.js"
 import { World } from "./game/world.js"
 
-const NUM_UNITS = 20
-const UNIT_SIZE = 4
+const NUM_UNITS = 200
+const NUM_FOOD = 10
+const FOOD_SPAWN_RATE = 10
+const UNIT_SIZE = 2
+const FOOD_SIZE = 3
 const UNIT_VELOCITY = null
 const LIFE_DECAY = 0.1
 const FPS = 30
@@ -20,7 +23,8 @@ document.addEventListener("keydown", handleStart, { once: true })
 
 function handleStart() {
   lastTime = null
-  world.genUnits(NUM_UNITS, UNIT_SIZE, UNIT_VELOCITY, LIFE_DECAY)
+  world.spawnUnits(NUM_UNITS, UNIT_SIZE, UNIT_VELOCITY, LIFE_DECAY)
+  world.spawnFood(NUM_FOOD, FOOD_SIZE)
   // for fps capping
   then = Date.now()
 
@@ -40,6 +44,7 @@ function update(time) {
   if (elapsed > FPS_INTERVAL) {
     const delta = time - lastTime
     world.incrementUnits(delta * speedScale)
+    world.spawnFood(FOOD_SPAWN_RATE, FOOD_SIZE)
     lastTime = time
     then = now - (elapsed % FPS_INTERVAL)
   }

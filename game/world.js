@@ -1,14 +1,14 @@
 import { Unit, Units } from "./unit.js"
+import { Food } from "./food.js"
 import { getRandomInt } from "./utils/mathy.js"
 
 export class World {
   constructor() {
     this.elem = document.querySelector("[data-world]")
     this.units = new Units()
-    this.foods = []
   }
 
-  genUnits(numUnits, unitSize, unitV, lifeDecay) {
+  spawnUnits(numUnits, unitSize, unitV, lifeDecay) {
     for (let i = 0; i < numUnits; i++) {
       const left = getRandomInt(100 - unitSize)
       const bottom = getRandomInt(100 - unitSize)
@@ -46,8 +46,19 @@ export class World {
     }
   }
 
+  spawnFood(numFood, unitSize) {
+    for (let i = 0; i < numFood; i++) {
+      const left = getRandomInt(100 - unitSize)
+      const bottom = getRandomInt(100 - unitSize)
+      const foodElem = Food.createFoodElem(left, bottom, unitSize)
+      const food = new Food(foodElem)
+      this.units.addFood(food)
+    }
+  }
+
   incrementUnits(delta) {
-    this.units.increment(delta)
-    let collisions = this.units.manageCollisions()
+    this.units.incrementUnits(delta)
+    this.units.incrementFood()
+    this.units.manageCollisions()
   }
 }
