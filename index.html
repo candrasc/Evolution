@@ -10,8 +10,29 @@
   </head>
   <body>
     <div class="test"></div>
-    <div class="world" data-world></div>
+    <div class="world" data-world>
+      <div class="start-screen" data-start-screen>Press space to start</div>
+      <div class="start-screen hide" data-unpause-screen>
+        Press space to unpause
+      </div>
+    </div>
 
-    <div class="info" data-info></div>
+    <div class="info" data-info>
+      <div class="sliderContainer">
+        Simulation Speed
+        <span class="limit">0</span>
+        <input
+          type="range"
+          min="0"
+          max="10"
+          value="2"
+          class="slider"
+          id="speedSlider"
+        />
+        <span class="limit">10</span>
+      </div>
+
+      </div>
+    </div>
   </body>
 </html>

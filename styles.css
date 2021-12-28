@@ -8,9 +8,10 @@
   overflow: hidden;
   position: relative;
   border-color: rgb(17, 0, 255);
+  background-color: rgb(66, 64, 64);
   border-style: solid;
   height: 50rem;
-  width: 10rem;
+  width: 20rem;
   float: right;
 }
 
@@ -71,6 +72,23 @@
   animation: grow 1.5s;
 }
 
+.hide {
+  display: none;
+}
+
+.start-screen {
+  position: absolute;
+  opacity: 70%;
+  font-size: 4vmin;
+  font-weight: bolder;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  background-color: white;
+}
+
 @keyframes grow {
   from {
     transform: scale(0);
@@ -83,6 +101,38 @@
   }
 }
 
+.sliderContainer {
+  text-align: center;
+  color: #fff;
+  position: absolute;
+}
+
+.slider {
+  width: 70%;
+  background: #444;
+  left: 1.2rem;
+  margin: 10px;
+  padding: 10px;
+  position: relative;
+}
+
+.slider input[type="range"] {
+  width: 70%;
+}
+
+.limit {
+  color: #fff;
+  position: absolute;
+  top: 36px;
+}
+
+.limit:first-child {
+  left: 40px;
+}
+
+.limit:last-child {
+  right: 0px;
+}
 /* .test {
   position: absolute;
   width: 20%;
