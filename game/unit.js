@@ -24,7 +24,8 @@ export class Unit {
     attack,
     defense,
     lifespan,
-    foodEfficiency
+    foodEfficiency,
+    friendliness
   ) {
     this.elem = elem
     this.leftPos = getCustomProperty(this.elem, "--left")
@@ -36,11 +37,12 @@ export class Unit {
     this.hungerDecay = 0.2 // Refactor as world property that is called when we increment
 
     this.coreStats = {
-      health: health,
       attack: attack,
+      health: health,
       defense: defense,
       lifespan: lifespan,
       foodEfficiency: foodEfficiency,
+      friendliness: friendliness,
     }
     this.currHealth = this.coreStats.health
     this.hunger = 50
@@ -221,7 +223,8 @@ export class Units {
     this.foods = []
     this.DAMAGE_MULTIPLIER = damageMultiplier
     this.INTERACTION_COOLDOWN = 10
-    this.FOOD_VALUE = 50
+    this.FOOD_VALUE = 20
+    this.KILL_VALUE = 50
   }
   addUnit(unit) {
     this.units.push(unit)
@@ -270,7 +273,8 @@ export class Units {
 
         if (this.__isCollision(unitA, unitB)) {
           const rand = Math.random()
-          const similarity = this.__simScore(unitA, unitB)
+          const chanceToMate =
+            unitA.coreStats.friendliness + unitB.coreStats.friendliness
           if (0.5 >= rand) this.reproduce(unitA, unitB)
           else this.fight(unitA, unitB)
 
@@ -316,11 +320,11 @@ export class Units {
     // If both units can kill each other they both die
     // Otherwise you both take damage
     if (kill1 && !kill2) {
-      unit2.incrementHealth(health1)
+      unit2.incrementHealth(this.KILL_VALUE)
       unit1.incrementHealth(-1 * damageToOne)
       spawnFight(unitRect.left, unitRect.bottom)
     } else if (kill2 && !kill1) {
-      unit1.incrementHealth(health2)
+      unit1.incrementHealth(this.KILL_VALUE)
       unit2.incrementHealth(-1 * damageToTwo)
       spawnFight(unitRect.left, unitRect.bottom)
     } else {
@@ -357,6 +361,7 @@ export class Units {
     const defense = (stats1.defense + stats2.defense) / 2
     const lifespan = (stats1.lifespan + stats2.lifespan) / 2
     const foodEfficiency = (stats1.foodEfficiency + stats2.foodEfficiency) / 2
+    const friendliness = (stats1.friendliness + stats2.friendliness) / 2
 
     const vX = Math.random()
     const vY = Math.random()
@@ -372,7 +377,8 @@ export class Units {
       attack,
       defense,
       lifespan,
-      foodEfficiency
+      foodEfficiency,
+      friendliness
     )
     // Give some time before the spawned unit can interact. Prevents instant incest
     unit.incrementInactive(50)

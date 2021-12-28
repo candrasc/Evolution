@@ -1,17 +1,19 @@
 import { Unit } from "./game/unit.js"
 import { World } from "./game/world.js"
 
-const NUM_UNITS = 200
+const NUM_UNITS = 100
 const NUM_FOOD = 0
-const FOOD_SPAWN_RATE = 10
+const FOOD_SPAWN_RATE = 50
 const UNIT_DAMAGE_MULTIPLIER = 1
 const MUTATION_PROBA = 1 / 100
 const LIFE_DECAY = 0
 const HUNGER_DECAY = 0.1
-const FOOD_VALUE = 50
+const FOOD_VALUE = 20
+const KILL_VALUE = 50
 
 const UNIT_SIZE = 2
-const FOOD_SIZE = 3
+const FOOD_SIZE = 2
+// Null randomizes velocities
 const UNIT_VELOCITY = null
 
 const FPS = 30
@@ -53,13 +55,12 @@ function update(time) {
     world.incrementUnits(delta * speedScale)
     lastTime = time
     then = now - (elapsed % FPS_INTERVAL)
-    if (frameCount % (FPS / FOOD_SPAWN_RATE) == 0) {
+    if (frameCount % Math.min(Math.round(FPS / FOOD_SPAWN_RATE, 1)) == 0) {
       world.spawnFood(1, FOOD_SIZE)
     }
-    if (frameCount % 100000 == 0) world.cleanUpAnimations()
+    if (frameCount % 1000 == 0) world.cleanUpAnimations()
 
     frameCount += 1
-    console.log(FPS * 5)
   }
   window.requestAnimationFrame(update)
 }

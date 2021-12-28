@@ -20,6 +20,7 @@ export class World {
       const defense = getRandomInt(100)
       const lifespan = getRandomInt(100)
       const foodEfficiency = getRandomInt(100)
+      const friendliness = getRandomInt(100)
 
       let vX
       let vY
@@ -42,7 +43,8 @@ export class World {
         attack,
         defense,
         lifespan,
-        foodEfficiency
+        foodEfficiency,
+        friendliness
       )
       this.units.addUnit(unit)
     }
