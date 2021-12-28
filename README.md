@@ -20,7 +20,7 @@ The decision to fight or breed is based on the Cosine Similarity of the corestat
 
 ### Reproducing
 
-If the units choose to reproduce, they can only do so if they both have sufficient health (above 25% of their max health). If this condition is not met they will not do anything
+If the units choose to reproduce, they can only do so if they both have sufficient health and hunger. If this condition is not met they will not do anything
 
 
 ## Possible additions
