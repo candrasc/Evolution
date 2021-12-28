@@ -3,8 +3,8 @@ import { World } from "./game/world.js"
 
 const NUM_UNITS = 100
 const NUM_FOOD = 0
-const FOOD_SPAWN_RATE = 50
-const UNIT_DAMAGE_MULTIPLIER = 1
+const FOOD_SPAWN_RATE = 5
+const UNIT_DAMAGE_MULTIPLIER = 1.2
 const MUTATION_PROBA = 1 / 100
 const LIFE_DECAY = 0
 const HUNGER_DECAY = 0.1
@@ -27,25 +27,33 @@ let now, then, elapsed
 // initialize the timer variables and start the animation
 
 // window.addEventListener("resize", setPixelToWorldScale)
-document.addEventListener("keydown", handleStart, { once: true })
+document.addEventListener("keydown", handleStart)
 
-function handleStart() {
-  lastTime = null
-  world.spawnUnits(NUM_UNITS, UNIT_SIZE, UNIT_VELOCITY, LIFE_DECAY)
-  world.spawnFood(NUM_FOOD, FOOD_SIZE)
-  // for fps capping
-  then = Date.now()
-
-  window.requestAnimationFrame(update)
+function handleStart(e) {
+  if (e.code == "Space") {
+    lastTime = null
+    world.spawnUnits(NUM_UNITS, UNIT_SIZE, UNIT_VELOCITY, LIFE_DECAY)
+    world.spawnFood(NUM_FOOD, FOOD_SIZE)
+    // for fps capping
+    then = Date.now()
+    document.removeEventListener("keydown", handleStart)
+    document.addEventListener("keydown", pause)
+    window.requestAnimationFrame(update)
+  }
 }
 
 let lastTime
 let frameCount = 2
+let paused = false
 function update(time) {
+  if (paused) {
+    lastTime = null
+    return
+  }
+
   if (lastTime == null) {
     lastTime = time
     window.requestAnimationFrame(update)
-    return
   }
   now = Date.now()
   elapsed = now - then
@@ -63,4 +71,21 @@ function update(time) {
     frameCount += 1
   }
   window.requestAnimationFrame(update)
+}
+
+function pause(e) {
+  if (e.code == "Space") {
+    paused = true
+    document.removeEventListener("keydown", pause)
+    document.addEventListener("keydown", unpause)
+  }
+}
+
+function unpause(e) {
+  if (e.code == "Space") {
+    paused = false
+    document.removeEventListener("keydown", unpause)
+    document.addEventListener("keydown", pause)
+    window.requestAnimationFrame(update)
+  }
 }

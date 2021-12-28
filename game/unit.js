@@ -40,9 +40,9 @@ export class Unit {
       attack: attack,
       health: health,
       defense: defense,
-      lifespan: lifespan,
-      foodEfficiency: foodEfficiency,
-      friendliness: friendliness,
+      // lifespan: lifespan,
+      // foodEfficiency: foodEfficiency,
+      // friendliness: friendliness,
     }
     this.currHealth = this.coreStats.health
     this.hunger = 50
@@ -52,6 +52,7 @@ export class Unit {
     this.__mutate()
     this.__normStats()
     this.__setColor()
+    console.log(this.coreStats)
   }
 
   static createUnitElem(left, bottom, size) {
@@ -138,9 +139,8 @@ export class Unit {
 
   isAlive() {
     return (
-      this.currAge <= this.coreStats.lifespan &&
-      this.currHealth > 0 &&
-      this.hunger > 0
+      // this.currAge <= this.coreStats.lifespan &&
+      this.currHealth > 0 && this.hunger > 0
     )
   }
 
@@ -306,10 +306,14 @@ export class Units {
     const stats1 = unit1.getStats()
     const stats2 = unit2.getStats()
 
-    let damageToOne =
-      Math.max(stats2.attack - stats1.defense, 0) * this.DAMAGE_MULTIPLIER
-    let damageToTwo =
-      Math.max(stats1.attack - stats2.defense, 0) * this.DAMAGE_MULTIPLIER
+    let damageToOne = Math.max(
+      stats2.attack * this.DAMAGE_MULTIPLIER - stats1.defense,
+      0
+    )
+    let damageToTwo = Math.max(
+      stats1.attack * this.DAMAGE_MULTIPLIER - stats2.defense,
+      0
+    )
     let health1 = unit1.getCurrHealth()
     let health2 = unit2.getCurrHealth()
 
@@ -320,11 +324,13 @@ export class Units {
     // If both units can kill each other they both die
     // Otherwise you both take damage
     if (kill1 && !kill2) {
-      unit2.incrementHealth(this.KILL_VALUE)
+      unit2.incrementHealth(health1)
+      unit2.incrementHunger(this.KILL_VALUE)
       unit1.incrementHealth(-1 * damageToOne)
       spawnFight(unitRect.left, unitRect.bottom)
     } else if (kill2 && !kill1) {
-      unit1.incrementHealth(this.KILL_VALUE)
+      unit1.incrementHealth(health2)
+      unit1.incrementHunger(this.KILL_VALUE)
       unit2.incrementHealth(-1 * damageToTwo)
       spawnFight(unitRect.left, unitRect.bottom)
     } else {
