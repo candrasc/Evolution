@@ -3,6 +3,9 @@ import { World } from "./game/world.js"
 
 const NUM_UNITS = 100
 const NUM_FOOD = 0
+const BASE_FOOD_SPAWN_RATE = 10
+const BASE_LIFE_DECAY = 0
+const BASE_HUNGER_DECAY = 0.1
 const UNIT_DAMAGE_MULTIPLIER = 1.2
 const MUTATION_PROBA = 1 / 100
 
@@ -14,13 +17,10 @@ const FOOD_SIZE = 2
 // Null randomizes velocities
 const UNIT_VELOCITY = null
 
-const BASE_FOOD_SPAWN_RATE = 1
-const BASE_LIFE_DECAY = 0
-const BASE_HUNGER_DECAY = 0.1
-let FOOD_SPAWN_RATE = 20
-let LIFE_DECAY = 0
-let HUNGER_DECAY = 0
-let SIMULATION_SPEED = 1
+let FOOD_SPAWN_RATE
+let LIFE_DECAY
+let HUNGER_DECAY
+let SIMULATION_SPEED = 2
 
 // screenelements
 const startScreenElem = document.querySelector("[data-start-screen]")
@@ -51,6 +51,7 @@ function handleStart(e) {
   if (e.code == "Space") {
     startScreenElem.classList.add("hide")
     lastTime = null
+    setSimulationSpeed(SIMULATION_SPEED)
     world.spawnUnits(NUM_UNITS, UNIT_SIZE, UNIT_VELOCITY, LIFE_DECAY)
     world.spawnFood(NUM_FOOD, FOOD_SIZE)
     // for fps capping
