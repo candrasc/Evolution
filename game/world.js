@@ -4,15 +4,14 @@ import { getRandomInt } from "./utils/mathy.js"
 import { cleanUpFights, cleanUpLoves } from "./utils/animations.js"
 
 export class World {
-  constructor(damageMultiplier, mutationProba) {
+  constructor() {
     this.elem = document.querySelector("[data-world]")
-    this.units = new Units(damageMultiplier)
-    this.mutationProba = mutationProba
-    console.log(mutationProba)
+    this.units = new Units()
   }
 
   spawnUnits(numUnits, unitSize, unitV, lifeDecay) {
     for (let i = 0; i < numUnits; i++) {
+      const mutationProba = 1 / 1000
       const left = getRandomInt(100 - unitSize)
       const bottom = getRandomInt(100 - unitSize)
       const health = getRandomInt(100)
@@ -38,7 +37,7 @@ export class World {
         vX,
         vY,
         lifeDecay,
-        this.mutationProba,
+        mutationProba,
         health,
         attack,
         defense,
@@ -60,10 +59,23 @@ export class World {
     }
   }
 
-  incrementUnits(delta) {
-    this.units.incrementUnits(delta)
+  incrementUnits(
+    delta,
+    foodValue,
+    killValue,
+    hungerDecay,
+    ageDecay,
+    mutationProba,
+    damageMultiplier
+  ) {
+    this.units.incrementUnits(delta, hungerDecay, ageDecay)
     this.units.incrementFood()
-    this.units.manageCollisions()
+    this.units.manageCollisions(
+      foodValue,
+      killValue,
+      mutationProba,
+      damageMultiplier
+    )
   }
 
   cleanUpAnimations() {

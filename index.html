@@ -18,10 +18,11 @@
     </div>
 
     <div class="info" data-info>
-      <div class="sliderContainer">
+      <div class="sliderContainer" >
         Simulation Speed
-        <span class="limit">0</span>
+       
         <input
+        
           type="range"
           min="0"
           max="10"
@@ -29,7 +30,97 @@
           class="slider"
           id="speedSlider"
         />
-        <span class="limit">10</span>
+        <span class="limitFirst">0</span>
+        <span class="limitSecond">10</span>
+      </div>
+      <div class="sliderContainer">
+        Hunger Decay Rate
+        
+        <input
+          type="range"
+          min="0"
+          max="10"
+          step="1"
+          value="1"
+          class="slider"
+          id="hungerDecaySlider"
+        />
+        <span class="limitFirst">0</span>
+        <span class="limitSecond">10</span>
+      </div>
+      <div class="sliderContainer">
+        Food Spawn Rate
+        
+        <input
+          type="range"
+          min="0"
+          max="50"
+          step="5"
+          value="10"
+          class="slider"
+          id="foodSpawnSlider"
+        />
+        <span class="limitFirst">0</span>
+        <span class="limitSecond">50</span>
+      </div>
+      <div class="sliderContainer">
+        Food Value
+        <input
+          type="range"
+          min="0"
+          max="100"
+          step="5"
+          value="20"
+          class="slider"
+          id="foodValueSlider"
+        />
+        <span class="limitFirst">0</span>
+        <span class="limitSecond">100</span>
+      </div>
+      <div class="sliderContainer">
+        Kill Unit Value
+        <input
+          type="range"
+          min="0"
+          max="100"
+          step="5"
+          value="20"
+          class="slider"
+          id="killSlider"
+        />
+        <span class="limitFirst">0</span>
+        <span class="limitSecond">100</span>
+      </div>
+
+      <div class="sliderContainer">
+        Mutation Rate Percentage
+        
+        <input
+          type="range"
+          min="0"
+          max="10"
+          step=".1"
+          value=".1"
+          class="slider"
+          id="mutationSlider"
+        />
+        <span class="limitFirst">0</span>
+        <span class="limitSecond">10</span>
+      </div>
+      <div class="sliderContainer">
+        Damage Multiplier
+      
+        <input
+          type="range"
+          min="0"
+          max="2"
+          step=".1"
+          value="1"
+          class="slider"
+          id="damageSlider"
+        />
+        <span class="limitFirst">0</span>
+        <span class="limitSecond">2</span>
       </div>
 
       </div>

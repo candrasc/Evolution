@@ -1,16 +1,16 @@
 import { Unit } from "./game/unit.js"
 import { World } from "./game/world.js"
 
-const NUM_UNITS = 100
-const NUM_FOOD = 0
-const BASE_FOOD_SPAWN_RATE = 5
-const BASE_LIFE_DECAY = 0
-const BASE_HUNGER_DECAY = 0.1
-const UNIT_DAMAGE_MULTIPLIER = 1
-const MUTATION_PROBA = 1 / 100
+let NUM_UNITS = 100
+let NUM_FOOD = 20
+let BASE_FOOD_SPAWN_RATE = 20
+let BASE_AGE_DECAY = 0
+let BASE_HUNGER_DECAY = 1
+let UNIT_DAMAGE_MULTIPLIER = 1
+let MUTATION_PROBA = 1 / 100
 
-const FOOD_VALUE = 20
-const KILL_VALUE = 50
+let FOOD_VALUE = 20
+let KILL_VALUE = 30
 
 const UNIT_SIZE = 2
 const FOOD_SIZE = 2
@@ -18,26 +18,59 @@ const FOOD_SIZE = 2
 const UNIT_VELOCITY = null
 
 let FOOD_SPAWN_RATE
-let LIFE_DECAY
-let HUNGER_DECAY
+let AGE_DECAY
+let HUNGER_DECAY = 1
 let SIMULATION_SPEED = 2
+
+const FPS = 60
+const FPS_INTERVAL = 1000 / FPS
 
 // screenelements
 const startScreenElem = document.querySelector("[data-start-screen]")
 const unpauseScreenElem = document.querySelector("[data-unpause-screen]")
 const speedInput = document.getElementById("speedSlider")
-const FPS = 30
-const FPS_INTERVAL = 1000 / FPS
+const hungerDecayInput = document.getElementById("hungerDecaySlider")
+const foodSpawnInput = document.getElementById("foodSpawnSlider")
+const foodValueInput = document.getElementById("foodValueSlider")
+const killInput = document.getElementById("killSlider")
+const mutationInput = document.getElementById("mutationSlider")
+const damageInput = document.getElementById("damageSlider")
+
 // Speedscale can be manipulated by user to slow or increase sim
 
-let world = new World(UNIT_DAMAGE_MULTIPLIER, MUTATION_PROBA)
+let world = new World()
 // For fPS capping
 let now, then, elapsed
 
 function setSimulationSpeed(speed) {
   FOOD_SPAWN_RATE = BASE_FOOD_SPAWN_RATE * speed
-  LIFE_DECAY = BASE_LIFE_DECAY * speed
-  HUNGER_DECAY = BASE_HUNGER_DECAY * speed
+  //AGE_DECAY = BASE_AGE_DECAY * speed
+  // HUNGER_DECAY = BASE_HUNGER_DECAY * speed
+}
+
+function setHungerDecay(value) {
+  HUNGER_DECAY = value
+}
+
+function setFoodSpawnRate(value) {
+  FOOD_SPAWN_RATE = value * SIMULATION_SPEED
+  BASE_FOOD_SPAWN_RATE = value
+}
+
+function setFoodValue(value) {
+  FOOD_VALUE = value
+}
+
+function setKillValue(value) {
+  KILL_VALUE = value
+}
+
+function setMutationProba(value) {
+  MUTATION_PROBA = value
+}
+
+function setDamageMultiplier(value) {
+  UNIT_DAMAGE_MULTIPLIER = value
 }
 
 // window.addEventListener("resize", setPixelToWorldScale)
@@ -46,13 +79,35 @@ speedInput.addEventListener("mouseup", function () {
   SIMULATION_SPEED = this.value
   setSimulationSpeed(SIMULATION_SPEED)
 })
+killInput.addEventListener("mouseup", function () {
+  setKillValue(this.value)
+})
+foodSpawnInput.addEventListener("mouseup", function () {
+  setFoodSpawnRate(this.value)
+})
+foodValueInput.addEventListener("mouseup", function () {
+  setFoodValue(this.value)
+})
+killInput.addEventListener("mouseup", function () {
+  setKillValue(this.value)
+})
+mutationInput.addEventListener("mouseup", function () {
+  setMutationProba(this.value)
+})
+damageInput.addEventListener("mouseup", function () {
+  setDamageMultiplier(this.value)
+})
+
+hungerDecayInput.addEventListener("mouseup", function () {
+  setHungerDecay(this.value)
+})
 
 function handleStart(e) {
   if (e.code == "Space") {
     startScreenElem.classList.add("hide")
     lastTime = null
     setSimulationSpeed(SIMULATION_SPEED)
-    world.spawnUnits(NUM_UNITS, UNIT_SIZE, UNIT_VELOCITY, LIFE_DECAY)
+    world.spawnUnits(NUM_UNITS, UNIT_SIZE, UNIT_VELOCITY)
     world.spawnFood(NUM_FOOD, FOOD_SIZE)
     // for fps capping
     then = Date.now()
@@ -80,12 +135,27 @@ function update(time) {
   elapsed = now - then
   // if enough time has elapsed, draw the next frame
   if (elapsed > FPS_INTERVAL) {
-    const delta = time - lastTime
-    world.incrementUnits(delta * 0.01 * SIMULATION_SPEED)
+    const delta = (time - lastTime) * 0.01 * SIMULATION_SPEED
+
+    world.incrementUnits(
+      delta,
+      FOOD_VALUE,
+      KILL_VALUE,
+      HUNGER_DECAY,
+      AGE_DECAY,
+      MUTATION_PROBA,
+      UNIT_DAMAGE_MULTIPLIER
+    )
     lastTime = time
     then = now - (elapsed % FPS_INTERVAL)
 
-    if (frameCount % Math.max(Math.round(FPS / FOOD_SPAWN_RATE), 1) == 0) {
+    console.log(SIMULATION_SPEED)
+
+    if (FOOD_SPAWN_RATE == 0) {
+    } else if (
+      frameCount % Math.max(Math.round(FPS / FOOD_SPAWN_RATE), 1) ==
+      0
+    ) {
       world.spawnFood(1, FOOD_SIZE)
     }
     if (frameCount % 1000 == 0) {

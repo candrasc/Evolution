@@ -7,6 +7,7 @@
 .info {
   overflow: hidden;
   position: relative;
+  padding: 10px;
   border-color: rgb(17, 0, 255);
   background-color: rgb(66, 64, 64);
   border-style: solid;
@@ -102,9 +103,9 @@
 }
 
 .sliderContainer {
+  position: relative;
   text-align: center;
   color: #fff;
-  position: absolute;
 }
 
 .slider {
@@ -122,16 +123,21 @@
 
 .limit {
   color: #fff;
-  position: absolute;
+  text-align: center;
   top: 36px;
+  position: relative;
 }
 
-.limit:first-child {
-  left: 40px;
+.limitFirst {
+  position: relative;
+  top: 5px;
+  left: -200px;
 }
 
-.limit:last-child {
-  right: 0px;
+.limitSecond {
+  position: relative;
+  right: 20px;
+  top: 5px;
 }
 /* .test {
   position: absolute;
