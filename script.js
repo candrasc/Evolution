@@ -3,10 +3,10 @@ import { World } from "./game/world.js"
 
 const NUM_UNITS = 100
 const NUM_FOOD = 0
-const BASE_FOOD_SPAWN_RATE = 10
+const BASE_FOOD_SPAWN_RATE = 5
 const BASE_LIFE_DECAY = 0
 const BASE_HUNGER_DECAY = 0.1
-const UNIT_DAMAGE_MULTIPLIER = 1.2
+const UNIT_DAMAGE_MULTIPLIER = 1
 const MUTATION_PROBA = 1 / 100
 
 const FOOD_VALUE = 20
@@ -84,10 +84,14 @@ function update(time) {
     world.incrementUnits(delta * 0.01 * SIMULATION_SPEED)
     lastTime = time
     then = now - (elapsed % FPS_INTERVAL)
-    if (frameCount % Math.min(Math.round(FPS / FOOD_SPAWN_RATE, 1)) == 0) {
+
+    if (frameCount % Math.max(Math.round(FPS / FOOD_SPAWN_RATE), 1) == 0) {
       world.spawnFood(1, FOOD_SIZE)
     }
-    if (frameCount % 1000 == 0) world.cleanUpAnimations()
+    if (frameCount % 1000 == 0) {
+      world.cleanUpAnimations()
+      frameCount = 0
+    }
 
     frameCount += 1
   }

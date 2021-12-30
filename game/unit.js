@@ -224,7 +224,7 @@ export class Units {
     this.DAMAGE_MULTIPLIER = damageMultiplier
     this.INTERACTION_COOLDOWN = 10
     this.FOOD_VALUE = 20
-    this.KILL_VALUE = 50
+    this.KILL_VALUE = 40
   }
   addUnit(unit) {
     this.units.push(unit)
@@ -333,6 +333,14 @@ export class Units {
       unit1.incrementHunger(this.KILL_VALUE)
       unit2.incrementHealth(-1 * damageToTwo)
       spawnFight(unitRect.left, unitRect.bottom)
+    } else if (damageToOne > damageToTwo) {
+      unit2.incrementHealth(health1)
+      unit2.incrementHunger(this.KILL_VALUE)
+      unit1.incrementHealth(-1 * damageToOne)
+    } else if (damageToOne < damageToTwo) {
+      unit1.incrementHealth(health2)
+      unit1.incrementHunger(this.KILL_VALUE)
+      unit2.incrementHealth(-1 * damageToTwo)
     } else {
       unit1.incrementHealth(-1 * damageToOne)
       unit2.incrementHealth(-1 * damageToTwo)
