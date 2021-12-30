@@ -2,7 +2,7 @@ import { setCustomProperty } from "./updateCustomProperty.js"
 
 let worldElem = document.querySelector("[data-world]")
 
-export function spawnFight(left, bottom) {
+export function spawnKillAnimation(left, bottom) {
   const fight = document.createElement("img")
 
   fight.dataset.fight = true
@@ -14,7 +14,7 @@ export function spawnFight(left, bottom) {
   worldElem.append(fight)
 }
 
-export function spawnLove(left, bottom) {
+export function spawnLoveAnimation(left, bottom) {
   const love = document.createElement("img")
 
   love.dataset.fight = true
@@ -26,14 +26,14 @@ export function spawnLove(left, bottom) {
   worldElem.append(love)
 }
 
-export function cleanUpFights() {
+export function cleanUpFightAnimations() {
   let fights = document.querySelectorAll("[data-fight]")
   fights.forEach((fight) => {
     fight.remove()
   })
 }
 
-export function cleanUpLoves() {
+export function cleanUpLoveAnimations() {
   let loves = document.querySelectorAll("[data-love]")
   loves.forEach((love) => {
     love.remove()

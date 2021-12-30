@@ -1,7 +1,10 @@
 import { Unit, Units } from "./unit.js"
 import { Food } from "./food.js"
 import { getRandomInt } from "./utils/mathy.js"
-import { cleanUpFights, cleanUpLoves } from "./utils/animations.js"
+import {
+  cleanUpFightAnimations,
+  cleanUpLoveAnimations,
+} from "./utils/animations.js"
 
 export class World {
   constructor() {
@@ -79,7 +82,7 @@ export class World {
   }
 
   cleanUpAnimations() {
-    cleanUpFights()
-    cleanUpLoves()
+    cleanUpFightAnimations()
+    cleanUpLoveAnimations()
   }
 }

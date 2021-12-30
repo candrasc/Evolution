@@ -3,24 +3,24 @@ import { World } from "./game/world.js"
 
 let NUM_UNITS = 100
 let NUM_FOOD = 20
-let BASE_FOOD_SPAWN_RATE = 20
+let BASE_FOOD_SPAWN_RATE = 15
 let BASE_AGE_DECAY = 0
 let BASE_HUNGER_DECAY = 1
 let UNIT_DAMAGE_MULTIPLIER = 1
 let MUTATION_PROBA = 1 / 100
 
 let FOOD_VALUE = 20
-let KILL_VALUE = 30
+let KILL_VALUE = 40
 
-const UNIT_SIZE = 2
-const FOOD_SIZE = 2
+const UNIT_SIZE = 3
+const FOOD_SIZE = 3
 // Null randomizes velocities
 const UNIT_VELOCITY = null
 
 let FOOD_SPAWN_RATE
 let AGE_DECAY
 let HUNGER_DECAY = 1
-let SIMULATION_SPEED = 2
+let SIMULATION_SPEED = 3
 
 const FPS = 60
 const FPS_INTERVAL = 1000 / FPS
@@ -148,8 +148,6 @@ function update(time) {
     )
     lastTime = time
     then = now - (elapsed % FPS_INTERVAL)
-
-    console.log(SIMULATION_SPEED)
 
     if (FOOD_SPAWN_RATE == 0) {
     } else if (
