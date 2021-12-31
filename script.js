@@ -12,8 +12,8 @@ let MUTATION_PROBA = 1 / 100
 let FOOD_VALUE = 20
 let KILL_VALUE = 40
 
-const UNIT_SIZE = 3
-const FOOD_SIZE = 3
+const UNIT_SIZE = 2.5
+const FOOD_SIZE = 2.5
 // Null randomizes velocities
 const UNIT_VELOCITY = null
 
@@ -22,7 +22,7 @@ let AGE_DECAY
 let HUNGER_DECAY = 1
 let SIMULATION_SPEED = 3
 
-const FPS = 60
+const FPS = 50
 const FPS_INTERVAL = 1000 / FPS
 
 // screenelements
