@@ -150,10 +150,10 @@ export class Unit {
 
   getRect() {
     let rect = {
-      left: this.leftPos,
+      left: this.leftPos - this.size,
       right: this.leftPos + this.size,
-      bottom: this.bottomPos,
-      top: this.bottomPos + this.size,
+      bottom: this.bottomPos - this.size,
+      top: this.bottomPos + this.size / 2,
     }
     return rect
   }
@@ -168,10 +168,10 @@ export class Unit {
     let left = this.leftPos
     let bottom = this.bottomPos
 
-    if (left <= 0) this.xVel = Math.abs(this.xVel)
+    if (left - this.size <= 0) this.xVel = Math.abs(this.xVel)
     else if (left >= 100 - this.size) this.xVel = Math.abs(this.xVel) * -1
 
-    if (bottom <= 0) this.yVel = Math.abs(this.yVel)
+    if (bottom - this.size <= 0) this.yVel = Math.abs(this.yVel)
     else if (bottom >= 100 - this.size) this.yVel = Math.abs(this.yVel) * -1
 
     this.leftPos += this.xVel * delta

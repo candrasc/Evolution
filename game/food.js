@@ -16,10 +16,10 @@ export class Food {
 
   getRect() {
     let rect = {
-      left: this.leftPos,
-      right: this.leftPos + this.size,
-      bottom: this.bottomPos,
-      top: this.bottomPos + this.size,
+      left: this.leftPos - this.size / 2,
+      right: this.leftPos + this.size / 2,
+      bottom: this.bottomPos - this.size / 2,
+      top: this.bottomPos + this.size / 2,
     }
     return rect
   }
