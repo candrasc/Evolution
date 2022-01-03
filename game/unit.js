@@ -40,7 +40,7 @@ export class Unit {
       // friendliness: friendliness,
     }
     this.currHealth = this.coreStats.health
-    this.hunger = 45
+    this.hunger = 40
     this.yVel = yVel
     this.xVel = xVel
     this.inactiveFrames = 0
