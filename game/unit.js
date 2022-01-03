@@ -153,7 +153,7 @@ export class Unit {
       left: this.leftPos - this.size,
       right: this.leftPos + this.size,
       bottom: this.bottomPos - this.size,
-      top: this.bottomPos + this.size / 2,
+      top: this.bottomPos + this.size,
     }
     return rect
   }

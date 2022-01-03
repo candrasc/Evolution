@@ -2,15 +2,15 @@ import { Unit } from "./game/unit.js"
 import { World } from "./game/world.js"
 
 let NUM_UNITS = 100
-let NUM_FOOD = 20
+let NUM_FOOD = 0
 let BASE_FOOD_SPAWN_RATE = 15
 let BASE_AGE_DECAY = 0
-let BASE_HUNGER_DECAY = 1
+let BASE_HUNGER_DECAY = 2
 let UNIT_DAMAGE_MULTIPLIER = 1
 let MUTATION_PROBA = 1 / 100
 
 let FOOD_VALUE = 20
-let KILL_VALUE = 40
+let KILL_VALUE = 30
 
 const UNIT_SIZE = 1.5
 const FOOD_SIZE = 2
@@ -19,7 +19,7 @@ const UNIT_VELOCITY = null
 
 let FOOD_SPAWN_RATE
 let AGE_DECAY
-let HUNGER_DECAY = 1
+let HUNGER_DECAY = 2
 let SIMULATION_SPEED = 3
 
 const FPS = 50
@@ -170,10 +170,11 @@ function update(time) {
       frameCount = 0
     }
 
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    world.drawAll(ctx)
     frameCount += 1
   }
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-  world.drawAll(ctx)
+
   window.requestAnimationFrame(update)
 }
 
