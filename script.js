@@ -12,8 +12,8 @@ let MUTATION_PROBA = 1 / 100
 let FOOD_VALUE = 20
 let KILL_VALUE = 40
 
-const UNIT_SIZE = 3
-const FOOD_SIZE = 3
+const UNIT_SIZE = 1.5
+const FOOD_SIZE = 2
 // Null randomizes velocities
 const UNIT_VELOCITY = null
 
@@ -24,6 +24,14 @@ let SIMULATION_SPEED = 3
 
 const FPS = 60
 const FPS_INTERVAL = 1000 / FPS
+
+const canvas = document.getElementById("world")
+canvas.style.width = "100%"
+canvas.style.height = "100%"
+// ...then set the internal size to match
+canvas.width = canvas.offsetWidth
+canvas.height = canvas.offsetHeight
+const ctx = canvas.getContext("2d")
 
 // screenelements
 const startScreenElem = document.querySelector("[data-start-screen]")
@@ -38,7 +46,7 @@ const damageInput = document.getElementById("damageSlider")
 
 // Speedscale can be manipulated by user to slow or increase sim
 
-let world = new World()
+let world = new World(canvas.width, canvas.height)
 // For fPS capping
 let now, then, elapsed
 
@@ -109,6 +117,7 @@ function handleStart(e) {
     setSimulationSpeed(SIMULATION_SPEED)
     world.spawnUnits(NUM_UNITS, UNIT_SIZE, UNIT_VELOCITY)
     world.spawnFood(NUM_FOOD, FOOD_SIZE)
+    world.drawAll(ctx)
     // for fps capping
     then = Date.now()
 
@@ -163,6 +172,8 @@ function update(time) {
 
     frameCount += 1
   }
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  world.drawAll(ctx)
   window.requestAnimationFrame(update)
 }
 

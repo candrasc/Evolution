@@ -1,9 +1,4 @@
 import {
-  getCustomProperty,
-  setCustomProperty,
-} from "./utils/updateCustomProperty.js"
-
-import {
   normalize,
   cosineSim,
   dotProduct,
@@ -12,10 +7,11 @@ import {
 
 import { spawnKillAnimation, spawnLoveAnimation } from "./utils/animations.js"
 
-let worldElem = document.querySelector("[data-world]")
 export class Unit {
   constructor(
-    elem,
+    left,
+    bottom,
+    size,
     yVel,
     xVel,
     lifeDecay,
@@ -27,14 +23,13 @@ export class Unit {
     foodEfficiency,
     friendliness
   ) {
-    this.elem = elem
-    this.leftPos = getCustomProperty(this.elem, "--left")
-    this.bottomPos = getCustomProperty(this.elem, "--bottom")
-    this.size = getCustomProperty(this.elem, "--size")
+    this.leftPos = left
+    this.bottomPos = bottom
+    this.size = size
     this.currAge = 0
     this.lifeDecay = lifeDecay
     this.mutationProba = mutationProba
-    this.hungerDecay = 0.2 // Refactor as world property that is called when we increment
+    this.hungerDecay = 0.1 // Refactor as world property that is called when we increment
 
     this.coreStats = {
       attack: attack,
@@ -45,24 +40,13 @@ export class Unit {
       // friendliness: friendliness,
     }
     this.currHealth = this.coreStats.health
-    this.hunger = 50
+    this.hunger = 45
     this.yVel = yVel
     this.xVel = xVel
     this.inactiveFrames = 0
     this.__mutate()
     this.__normStats()
-    this.__setColor()
-  }
-
-  static createUnitElem(left, bottom, size) {
-    const unit = document.createElement("div")
-    unit.dataset.unit = true
-    unit.classList.add("unit")
-    setCustomProperty(unit, "--left", left)
-    setCustomProperty(unit, "--bottom", bottom)
-    setCustomProperty(unit, "--size", size)
-    worldElem.append(unit)
-    return unit
+    this.color = this.__setColor()
   }
 
   __mutate() {
@@ -121,9 +105,18 @@ export class Unit {
     }
     // Now let's scale our values and set them
     let similarityVecNorm = normalize(similarityVec)
-    setCustomProperty(this.elem, "--red", similarityVecNorm[0] * 256)
-    setCustomProperty(this.elem, "--green", similarityVecNorm[1] * 256)
-    setCustomProperty(this.elem, "--blue", similarityVecNorm[2] * 256)
+
+    return [
+      similarityVecNorm[0] * 256,
+      similarityVecNorm[1] * 256,
+      similarityVecNorm[2] * 256,
+    ]
+  }
+
+  getColor() {
+    return (
+      "rgb(" + this.color[0] + " ," + this.color[1] + " ," + this.color[2] + ")"
+    )
   }
 
   getVecRep() {
@@ -165,11 +158,6 @@ export class Unit {
     return rect
   }
 
-  setPosition(left, bottom) {
-    setCustomProperty(this.elem, "--left", left)
-    setCustomProperty(this.elem, "--bottom", bottom)
-  }
-
   incrementInactive(time) {
     this.inactiveFrames = Math.max(this.inactiveFrames + time, 0)
   }
@@ -188,9 +176,6 @@ export class Unit {
 
     this.leftPos += this.xVel * delta
     this.bottomPos += this.yVel * delta
-
-    setCustomProperty(this.elem, "--left", this.leftPos)
-    setCustomProperty(this.elem, "--bottom", this.bottomPos)
   }
 
   decayAge(value) {
@@ -207,12 +192,6 @@ export class Unit {
 
   incrementHunger(value) {
     this.hunger = Math.min(this.hunger + value, 100)
-  }
-
-  destroyElem() {
-    // Used to clean out element before removing the object
-    // Test without this and see what happens
-    this.elem.remove()
   }
 }
 
@@ -238,7 +217,6 @@ export class Units {
         unit.incrementInactive(-1)
         unit.decayHunger(-1 * hungerDecay)
       } else {
-        unit.destroyElem()
         this.units.splice(i, 1)
       }
     }
@@ -247,7 +225,6 @@ export class Units {
     for (let i = this.foods.length - 1; i >= 0; i--) {
       let food = this.foods[i]
       if (!food.isActive()) {
-        food.destroyElem()
         this.foods.splice(i, 1)
       }
     }
@@ -375,9 +352,10 @@ export class Units {
     const vX = Math.random()
     const vY = Math.random()
 
-    const unitElem = Unit.createUnitElem(left, bottom, unit1.size)
     const unit = new Unit(
-      unitElem,
+      left,
+      bottom,
+      unit1.size,
       vX,
       vY,
       lifeDecay,

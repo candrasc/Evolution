@@ -3,27 +3,23 @@ import { setCustomProperty } from "./updateCustomProperty.js"
 let worldElem = document.querySelector("[data-world]")
 
 export function spawnKillAnimation(left, bottom) {
-  const fight = document.createElement("img")
-
-  fight.dataset.fight = true
-  fight.classList.add("fight")
-  fight.src = `game/imgs/death.png`
-
-  setCustomProperty(fight, "--left", left)
-  setCustomProperty(fight, "--bottom", bottom)
-  worldElem.append(fight)
+  // const fight = document.createElement("img")
+  // fight.dataset.fight = true
+  // fight.classList.add("fight")
+  // fight.src = `game/imgs/death.png`
+  // setCustomProperty(fight, "--left", left)
+  // setCustomProperty(fight, "--bottom", bottom)
+  // worldElem.append(fight)
 }
 
 export function spawnLoveAnimation(left, bottom) {
-  const love = document.createElement("img")
-
-  love.dataset.fight = true
-  love.classList.add("love")
-  love.src = `game/imgs/heart.png`
-
-  setCustomProperty(love, "--left", left)
-  setCustomProperty(love, "--bottom", bottom)
-  worldElem.append(love)
+  // const love = document.createElement("img")
+  // love.dataset.fight = true
+  // love.classList.add("love")
+  // love.src = `game/imgs/heart.png`
+  // setCustomProperty(love, "--left", left)
+  // setCustomProperty(love, "--bottom", bottom)
+  // worldElem.append(love)
 }
 
 export function cleanUpFightAnimations() {
