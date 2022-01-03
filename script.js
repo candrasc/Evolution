@@ -22,7 +22,7 @@ let AGE_DECAY
 let HUNGER_DECAY = 1
 let SIMULATION_SPEED = 3
 
-const FPS = 60
+const FPS = 50
 const FPS_INTERVAL = 1000 / FPS
 
 const canvas = document.getElementById("world")

@@ -264,7 +264,6 @@ export class Units {
         let unit = this.units[i]
         let food = this.foods[j]
 
-        if (!unit.isActive()) continue
         if (this.__isCollision(unit, food)) {
           unit.incrementHunger(foodValue)
           food.setIsActive(false)
@@ -294,7 +293,6 @@ export class Units {
     let kill2 = damageToTwo >= health2
 
     // If you can kill the unit you take no damage and add its health to your own
-    // If both units can kill each other they both die
     // Otherwise you both take damage
     if (kill1 && !kill2) {
       unit2.incrementHealth(health1)
