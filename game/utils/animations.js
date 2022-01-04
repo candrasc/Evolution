@@ -8,7 +8,7 @@ export function spawnKillAnimation(left, bottom) {
   fight.classList.add("fight")
   fight.src = `game/imgs/death.png`
   setCustomProperty(fight, "--left", left + "%")
-  setCustomProperty(fight, "--bottom", bottom + "%")
+  setCustomProperty(fight, "--bottom", 100 - bottom + "%")
   worldElem.append(fight)
 }
 
@@ -18,7 +18,7 @@ export function spawnLoveAnimation(left, bottom) {
   love.classList.add("love")
   love.src = `game/imgs/heart.png`
   setCustomProperty(love, "--left", left + "%")
-  setCustomProperty(love, "--bottom", bottom + "%")
+  setCustomProperty(love, "--bottom", 100 - bottom + "%")
 
   worldElem.append(love)
 }

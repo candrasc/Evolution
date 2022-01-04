@@ -203,7 +203,7 @@ export class Units {
   constructor() {
     this.units = []
     this.foods = []
-    this.INTERACTION_COOLDOWN = 20
+    this.INTERACTION_COOLDOWN = 10
   }
   addUnit(unit) {
     this.units.push(unit)
@@ -261,8 +261,6 @@ export class Units {
           unitB.incrementInactive(this.INTERACTION_COOLDOWN)
           // gives more random movements
           unitA.xVel *= -1
-          unitB.xVel *= -1
-          unitA.yVel *= -1
           unitB.yVel *= -1
         }
       }
