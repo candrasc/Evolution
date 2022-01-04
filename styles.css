@@ -8,6 +8,7 @@ canvas {
   background-color: lightgray;
   width: 100vw;
   height: 100vh;
+  z-index: 0;
 }
 
 .info {
@@ -63,8 +64,8 @@ canvas {
   overflow: hidden;
   opacity: 0;
 
-  left: calc(var(--left) * 1%);
-  bottom: calc(var(--bottom) * 1%);
+  left: calc(var(--left));
+  bottom: calc(var(--bottom));
   animation: grow 1.5s;
 }
 
@@ -75,8 +76,8 @@ canvas {
   overflow: hidden;
   opacity: 0;
 
-  left: calc(var(--left) * 1%);
-  bottom: calc(var(--bottom) * 1%);
+  left: calc(var(--left));
+  bottom: calc(var(--bottom));
   animation: grow 1.5s;
 }
 
@@ -94,7 +95,7 @@ canvas {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 100;
-  background-color: white;
+  background-color: lightgray;
 }
 
 @keyframes grow {

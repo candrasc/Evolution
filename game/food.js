@@ -1,9 +1,14 @@
 export class Food {
-  constructor(left, bottom, size) {
-    this.leftPos = left
-    this.bottomPos = bottom
+  constructor(x, y, size) {
+    this.xPos = x
+    this.yPos = y
     this.size = size
+    this.radius = size / 2
     this._isActive = true
+  }
+
+  getCenter() {
+    return [this.xPos + this.radius, this.yPos + this.radius]
   }
 
   setIsActive(bool) {
@@ -16,10 +21,10 @@ export class Food {
 
   getRect() {
     let rect = {
-      left: this.leftPos - this.size / 2,
-      right: this.leftPos + this.size / 2,
-      bottom: this.bottomPos - this.size / 2,
-      top: this.bottomPos + this.size / 2,
+      left: this.xPos,
+      right: this.xPos + this.size,
+      bottom: this.yPos - this.size,
+      top: this.yPos,
     }
     return rect
   }

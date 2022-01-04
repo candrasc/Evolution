@@ -23,8 +23,8 @@ export class World {
   spawnUnits(numUnits, unitSize, unitV, lifeDecay) {
     for (let i = 0; i < numUnits; i++) {
       const mutationProba = 1 / 1000
-      const left = getRandomInt(100 - unitSize)
-      const bottom = getRandomInt(100 - unitSize)
+      const x = getRandomInt(100 - unitSize)
+      const y = getRandomInt(100 - unitSize)
       const health = getRandomInt(100)
       const attack = getRandomInt(100)
       const defense = getRandomInt(100)
@@ -43,8 +43,8 @@ export class World {
       }
 
       const unit = new Unit(
-        left,
-        bottom,
+        x,
+        y,
         unitSize,
         vX,
         vY,
@@ -63,9 +63,9 @@ export class World {
 
   spawnFood(numFood, unitSize) {
     for (let i = 0; i < numFood; i++) {
-      const left = getRandomInt(100 - unitSize)
-      const bottom = getRandomInt(100 - unitSize)
-      const food = new Food(left, bottom, unitSize)
+      const x = getRandomInt(100 - unitSize)
+      const y = getRandomInt(100 - unitSize)
+      const food = new Food(x, y, unitSize)
       this.units.addFood(food)
     }
   }
@@ -108,9 +108,9 @@ export class World {
   }
 
   __drawUnit(ctx, unit) {
-    const x = unit.leftPos * this.width * 0.01
-    const y = unit.bottomPos * this.height * 0.01
-    const size = unit.size * this.width * 0.01
+    const x = unit.xPos * this.width * 0.01
+    const y = unit.yPos * this.height * 0.01
+    const size = unit.radius * this.width * 0.01
 
     ctx.beginPath()
     ctx.arc(x, y, size, 0, Math.PI * 2)
@@ -119,12 +119,13 @@ export class World {
   }
 
   __drawFood(ctx, food) {
-    const x = food.leftPos * this.width * 0.01
-    const y = food.bottomPos * this.height * 0.01
-    const size = food.size * this.width * 0.01
+    const x = food.xPos * this.width * 0.01
+    const y = food.yPos * this.height * 0.01
+    const sizeW = food.size * this.width * 0.01
+    const sizeH = food.size * this.height * 0.01
 
     ctx.beginPath()
-    ctx.drawImage(this.foodImage, x, y, size, size)
+    ctx.drawImage(this.foodImage, x, y, sizeW, sizeH)
     ctx.fill()
   }
 }

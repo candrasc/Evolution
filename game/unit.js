@@ -9,8 +9,8 @@ import { spawnKillAnimation, spawnLoveAnimation } from "./utils/animations.js"
 
 export class Unit {
   constructor(
-    left,
-    bottom,
+    x,
+    y,
     size,
     yVel,
     xVel,
@@ -23,9 +23,9 @@ export class Unit {
     foodEfficiency,
     friendliness
   ) {
-    this.leftPos = left
-    this.bottomPos = bottom
-    this.size = size
+    this.xPos = x
+    this.yPos = y
+    this.radius = size
     this.currAge = 0
     this.lifeDecay = lifeDecay
     this.mutationProba = mutationProba
@@ -113,6 +113,10 @@ export class Unit {
     ]
   }
 
+  getCenter() {
+    return [this.xPos, this.yPos]
+  }
+
   getColor() {
     return (
       "rgb(" + this.color[0] + " ," + this.color[1] + " ," + this.color[2] + ")"
@@ -150,10 +154,10 @@ export class Unit {
 
   getRect() {
     let rect = {
-      left: this.leftPos - this.size,
-      right: this.leftPos + this.size,
-      bottom: this.bottomPos - this.size,
-      top: this.bottomPos + this.size,
+      left: this.xPos - this.radius,
+      right: this.xPos + this.radius,
+      bottom: this.yPos - this.radius,
+      top: this.yPos + this.radius,
     }
     return rect
   }
@@ -165,17 +169,17 @@ export class Unit {
   incrementPosition(delta) {
     // switch velocities if at border
 
-    let left = this.leftPos
-    let bottom = this.bottomPos
+    let left = this.xPos
+    let bottom = this.yPos
 
-    if (left - this.size <= 0) this.xVel = Math.abs(this.xVel)
-    else if (left >= 100 - this.size) this.xVel = Math.abs(this.xVel) * -1
+    if (left - this.radius <= 0) this.xVel = Math.abs(this.xVel)
+    else if (left >= 100 - this.radius) this.xVel = Math.abs(this.xVel) * -1
 
-    if (bottom - this.size <= 0) this.yVel = Math.abs(this.yVel)
-    else if (bottom >= 100 - this.size) this.yVel = Math.abs(this.yVel) * -1
+    if (bottom - this.radius <= 0) this.yVel = Math.abs(this.yVel)
+    else if (bottom >= 100 - this.radius) this.yVel = Math.abs(this.yVel) * -1
 
-    this.leftPos += this.xVel * delta
-    this.bottomPos += this.yVel * delta
+    this.xPos += this.xVel * delta
+    this.yPos += this.yVel * delta
   }
 
   decayAge(value) {
@@ -257,6 +261,8 @@ export class Units {
           unitB.incrementInactive(this.INTERACTION_COOLDOWN)
           // gives more random movements
           unitA.xVel *= -1
+          unitB.xVel *= -1
+          unitA.yVel *= -1
           unitB.yVel *= -1
         }
       }
@@ -336,8 +342,8 @@ export class Units {
     }
 
     // set constant attributes
-    const left = unit1.getRect().left
-    const bottom = unit1.getRect().bottom
+    const x = unit1.xPos
+    const y = unit1.yPos
     const lifeDecay = unit1.lifeDecay
     // set core attributes
     const health = (stats1.health + stats2.health) / 2
@@ -351,9 +357,9 @@ export class Units {
     const vY = Math.random()
 
     const unit = new Unit(
-      left,
-      bottom,
-      unit1.size,
+      x,
+      y,
+      unit1.radius,
       vX,
       vY,
       lifeDecay,
@@ -368,22 +374,21 @@ export class Units {
     // Give some time before the spawned unit can interact. Prevents instant incest
     unit.incrementInactive(this.INTERACTION_COOLDOWN)
     this.units.push(unit)
-    spawnLoveAnimation(left, bottom)
+
+    spawnLoveAnimation(x, y)
   }
 
   __isCollision(unit1, unit2) {
-    const rect1 = unit1.getRect()
-    const rect2 = unit2.getRect()
+    const [x1, y1] = unit1.getCenter()
+    const [x2, y2] = unit2.getCenter()
+    const r1 = unit1.radius
+    const r2 = unit2.radius
 
-    let overlapX =
-      (rect1.right >= rect2.left && rect1.right <= rect2.right) ||
-      (rect1.left <= rect2.right && rect1.left >= rect2.left)
+    let xDiff = (x2 - x1) ** 2
+    let yDiff = (y2 - y1) ** 2
+    let radDiff = (r1 + r2) ** 2
 
-    let overlapY =
-      (rect1.bottom >= rect2.bottom && rect1.bottom <= rect2.top) ||
-      (rect1.top <= rect2.top && rect1.top >= rect2.bottom)
-
-    return overlapX && overlapY
+    return xDiff + yDiff <= radDiff
   }
 
   __simScore(unit1, unit2) {

@@ -1,8 +1,8 @@
 import { Unit } from "./game/unit.js"
 import { World } from "./game/world.js"
 
-let NUM_UNITS = 100
-let NUM_FOOD = 0
+let NUM_UNITS = 10
+let NUM_FOOD = 100
 let BASE_FOOD_SPAWN_RATE = 15
 let BASE_AGE_DECAY = 0
 let BASE_HUNGER_DECAY = 2
@@ -13,7 +13,7 @@ let FOOD_VALUE = 20
 let KILL_VALUE = 30
 
 const UNIT_SIZE = 1.5
-const FOOD_SIZE = 2
+const FOOD_SIZE = 2.5
 // Null randomizes velocities
 const UNIT_VELOCITY = null
 
