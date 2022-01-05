@@ -12,15 +12,43 @@ canvas {
 }
 
 .info {
-  overflow: hidden;
-  position: relative;
-  padding: 10px;
-  border-color: rgb(17, 0, 255);
-  background-color: rgb(66, 64, 64);
-  border-style: solid;
-  height: 50rem;
-  width: 20rem;
-  float: right;
+  height: 100%;
+  width: 20%;
+  left: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: rgb(64, 62, 80);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.info .closebtn {
+  position: absolute;
+  top: 0;
+  left: 15px;
+  font-size: 36px;
+  margin-right: 50px;
+  color: white;
+}
+
+.info .closebtn:hover {
+  color: rgb(224, 125, 125);
+}
+
+.openbtn {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 20px;
+  margin-right: 50px;
+}
+
+.openbtn:hover {
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .world-container {
@@ -66,7 +94,7 @@ canvas {
 
   left: calc(var(--left));
   bottom: calc(var(--bottom));
-  animation: grow 1.5s;
+  animation: grow 1s;
 }
 
 .love {
@@ -78,7 +106,7 @@ canvas {
 
   left: calc(var(--left));
   bottom: calc(var(--bottom));
-  animation: grow 1.5s;
+  animation: grow 1s;
 }
 
 .hide {
@@ -119,10 +147,10 @@ canvas {
 .slider {
   width: 70%;
   background: #444;
-  left: 1.2rem;
   margin: 10px;
   padding: 10px;
   position: relative;
+  left: -1rem;
 }
 
 .slider input[type="range"] {
@@ -138,14 +166,15 @@ canvas {
 
 .limitFirst {
   position: relative;
-  top: 5px;
-  left: -200px;
+  top: -20px;
+  left: -125px;
 }
 
 .limitSecond {
   position: relative;
-  right: 20px;
-  top: 5px;
+  right: -100px;
+  top: -20px;
+  text-align: center;
 }
 /* .test {
   position: absolute;
