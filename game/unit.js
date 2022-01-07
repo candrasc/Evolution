@@ -382,9 +382,9 @@ export class Units {
     const r1 = unit1.radius
     const r2 = unit2.radius
 
-    let xDiff = (x2 - x1) ** 2
-    let yDiff = (y2 - y1) ** 2
-    let radDiff = (r1 + r2) ** 2
+    const xDiff = (x2 - x1) ** 2
+    const yDiff = (y2 - y1) ** 2
+    const radDiff = (r1 + r2) ** 2
 
     return xDiff + yDiff <= radDiff
   }
