@@ -16,7 +16,7 @@ export class World {
 
   __setFoodImage() {
     const image = new Image()
-    image.src = "game/imgs/donut.png"
+    image.src = "game/imgs/food2.png"
     return image
   }
 
@@ -73,7 +73,7 @@ export class World {
   incrementUnits(
     delta,
     foodValue,
-    killValue,
+    killValueMultiplier,
     hungerDecay,
     ageDecay,
     mutationProba,
@@ -83,7 +83,7 @@ export class World {
     this.units.incrementFood()
     this.units.manageCollisions(
       foodValue,
-      killValue,
+      killValueMultiplier,
       mutationProba,
       damageMultiplier
     )

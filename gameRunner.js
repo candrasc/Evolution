@@ -10,10 +10,10 @@ let UNIT_DAMAGE_MULTIPLIER = 1
 let MUTATION_PROBA = 1 / 100
 
 let FOOD_VALUE = 20
-let KILL_VALUE = 30
+let KILL_VALUE_MULTIPLIER = 1
 
 const UNIT_SIZE = 1.5
-const FOOD_SIZE = 2.5
+const FOOD_SIZE = 1.5
 // Null randomizes velocities
 const UNIT_VELOCITY = null
 
@@ -69,8 +69,8 @@ function setFoodValue(value) {
   FOOD_VALUE = value
 }
 
-function setKillValue(value) {
-  KILL_VALUE = value
+function setkillValueMultiplier(value) {
+  KILL_VALUE_MULTIPLIER = value
 }
 
 function setMutationProba(value) {
@@ -88,7 +88,7 @@ speedInput.addEventListener("mouseup", function () {
   setSimulationSpeed(SIMULATION_SPEED)
 })
 killInput.addEventListener("mouseup", function () {
-  setKillValue(this.value)
+  setkillValueMultiplier(this.value)
 })
 foodSpawnInput.addEventListener("mouseup", function () {
   setFoodSpawnRate(this.value)
@@ -97,7 +97,7 @@ foodValueInput.addEventListener("mouseup", function () {
   setFoodValue(this.value)
 })
 killInput.addEventListener("mouseup", function () {
-  setKillValue(this.value)
+  setkillValueMultiplier(this.value)
 })
 mutationInput.addEventListener("mouseup", function () {
   setMutationProba(this.value)
@@ -149,7 +149,7 @@ function update(time) {
     world.incrementUnits(
       delta,
       FOOD_VALUE,
-      KILL_VALUE,
+      KILL_VALUE_MULTIPLIER,
       HUNGER_DECAY,
       AGE_DECAY,
       MUTATION_PROBA,

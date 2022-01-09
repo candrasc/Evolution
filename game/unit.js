@@ -113,6 +113,10 @@ export class Unit {
     ]
   }
 
+  getHunger() {
+    return this.hunger
+  }
+
   getCenter() {
     return [this.xPos, this.yPos]
   }
@@ -234,7 +238,12 @@ export class Units {
     }
   }
 
-  manageCollisions(foodValue, killValue, mutationProba, damageMultiplier) {
+  manageCollisions(
+    foodValue,
+    killValueMultiplier,
+    mutationProba,
+    damageMultiplier
+  ) {
     // Only let two units interact at once
 
     let collisions = new Set()
@@ -253,7 +262,7 @@ export class Units {
           const chanceToMate =
             unitA.coreStats.friendliness + unitB.coreStats.friendliness
           if (0.5 >= rand) this.reproduce(unitA, unitB, mutationProba)
-          else this.fight(unitA, unitB, killValue, damageMultiplier)
+          else this.fight(unitA, unitB, killValueMultiplier, damageMultiplier)
 
           collisions.add(unitA)
           collisions.add(unitB)
@@ -277,7 +286,7 @@ export class Units {
     return collisions
   }
 
-  fight(unit1, unit2, killValue, damageMultiplier) {
+  fight(unit1, unit2, killValueMultiplier, damageMultiplier) {
     const unitRect = unit1.getRect()
     const stats1 = unit1.getStats()
     const stats2 = unit2.getStats()
@@ -292,6 +301,8 @@ export class Units {
     )
     let health1 = unit1.getCurrHealth()
     let health2 = unit2.getCurrHealth()
+    let hunger1 = unit1.getHunger()
+    let hunger2 = unit2.getHunger()
 
     let kill1 = damageToOne >= health1
     let kill2 = damageToTwo >= health2
@@ -300,21 +311,21 @@ export class Units {
     // Otherwise you both take damage
     if (kill1 && !kill2) {
       unit2.incrementHealth(health1)
-      unit2.incrementHunger(killValue)
+      unit2.incrementHunger(hunger1 * killValueMultiplier)
       unit1.incrementHealth(-1 * damageToOne)
       spawnKillAnimation(unitRect.left, unitRect.bottom)
     } else if (kill2 && !kill1) {
       unit1.incrementHealth(health2)
-      unit1.incrementHunger(killValue)
+      unit1.incrementHunger(hunger2 * killValueMultiplier)
       unit2.incrementHealth(-1 * damageToTwo)
       spawnKillAnimation(unitRect.left, unitRect.bottom)
     } else if (damageToOne > damageToTwo) {
       unit2.incrementHealth(health1)
-      unit2.incrementHunger(killValue)
+      unit2.incrementHunger(hunger1 * killValueMultiplier)
       unit1.incrementHealth(-1 * damageToOne)
     } else if (damageToOne < damageToTwo) {
       unit1.incrementHealth(health2)
-      unit1.incrementHunger(killValue)
+      unit1.incrementHunger(hunger2 * killValueMultiplier)
       unit2.incrementHealth(-1 * damageToTwo)
     } else {
       unit1.incrementHealth(-1 * damageToOne)
