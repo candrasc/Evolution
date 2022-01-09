@@ -4,11 +4,14 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: #121212;
+}
+
 canvas {
-  background-color: lightgray;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
+  background-color: #353232;
+
+  z-index: 100;
 }
 
 .info {
@@ -16,10 +19,10 @@ canvas {
   width: 20%;
   left: 100%;
   position: fixed;
-  z-index: 1;
+  z-index: 10;
   top: 0;
   right: 0;
-  background-color: rgb(64, 62, 80);
+  background-color: #353232;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
@@ -40,10 +43,14 @@ canvas {
 
 .openbtn {
   position: absolute;
+  color: rgba(255, 255, 255, 0.74);
   top: 0;
-  right: 10px;
+  right: 1rem;
   font-size: 20px;
-  margin-right: 50px;
+
+  z-index: 0;
+  display: inline-block;
+  text-align: center;
 }
 
 .openbtn:hover {
@@ -54,13 +61,63 @@ canvas {
 .world-container {
   overflow: hidden;
   position: absolute;
-  border-color: rgb(78, 77, 77);
-  background-color: gray;
-  border-style: solid;
-  border-width: 10px;
-  height: 50rem;
-  width: 50rem;
+  top: 1rem;
+  left: 1rem;
+  border-radius: 1%;
+  height: 55rem;
+  width: 55rem;
   float: left;
+}
+
+.sliderContainer {
+  position: relative;
+  text-align: center;
+  color: #fff;
+}
+
+.slider {
+  width: 70%;
+  background: #444;
+  margin: 10px;
+  padding: 10px;
+  position: relative;
+  left: -1rem;
+}
+
+.slider input[type="range"] {
+  width: 70%;
+}
+
+.sliderTitle {
+  font-family: helvetica, arial;
+}
+
+.limitFirst {
+  position: relative;
+  font-family: helvetica, arial;
+  top: -20px;
+  left: -125px;
+}
+
+.limitSecond {
+  position: relative;
+  font-family: helvetica, arial;
+  right: -100px;
+  top: -20px;
+  text-align: center;
+}
+
+.start-screen {
+  position: absolute;
+
+  font-size: 3vmin;
+  font-weight: bolder;
+  color: white;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
 }
 
 .unit {
@@ -113,19 +170,6 @@ canvas {
   display: none;
 }
 
-.start-screen {
-  position: absolute;
-  opacity: 70%;
-  font-size: 4vmin;
-  font-weight: bolder;
-
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
-  background-color: lightgray;
-}
-
 @keyframes grow {
   from {
     transform: scale(0);
@@ -138,43 +182,6 @@ canvas {
   }
 }
 
-.sliderContainer {
-  position: relative;
-  text-align: center;
-  color: #fff;
-}
-
-.slider {
-  width: 70%;
-  background: #444;
-  margin: 10px;
-  padding: 10px;
-  position: relative;
-  left: -1rem;
-}
-
-.slider input[type="range"] {
-  width: 70%;
-}
-
-.sliderTitle {
-  font-family: helvetica, arial;
-}
-
-.limitFirst {
-  position: relative;
-  font-family: helvetica, arial;
-  top: -20px;
-  left: -125px;
-}
-
-.limitSecond {
-  position: relative;
-  font-family: helvetica, arial;
-  right: -100px;
-  top: -20px;
-  text-align: center;
-}
 /* .test {
   position: absolute;
   width: 20%;
