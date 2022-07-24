@@ -8,7 +8,7 @@ Units have a set of core stats that sum to 100 in total. Currently we have Healt
 
 Units also have other stats like the probability to mutate and hunger which are not part of the core stats. Hunger decays over time and can be replenished by killing or eating.
 
-##Interaction
+## Interaction
 
 Units can either fight, reproduce, or do nothing upon contact.
 
