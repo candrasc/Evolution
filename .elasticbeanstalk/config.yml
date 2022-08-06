@@ -1,6 +1,6 @@
 branch-defaults:
   add-aws-deploy:
-    environment: null
+    environment: Evolution-env
 global:
   application_name: evolution
   branch: null
