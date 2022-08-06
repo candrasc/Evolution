@@ -1,6 +1,8 @@
 # Evolution
 
-Evolution Simulator
+Evolution Simulator hosted on AWS Elasticbeanstalk: http://evolution-env.eba-uqppjpfu.us-east-1.elasticbeanstalk.com/
+
+Github Actions auto deploys newest version on merge to main. 
 
 ## Base of Game
 
