@@ -1,5 +1,5 @@
-import { Unit } from "./game/unit.js"
-import { World } from "./game/world.js"
+import { Unit } from "./unit.js"
+import { World } from "./world.js"
 
 let NUM_UNITS = 100
 let NUM_FOOD = 10
