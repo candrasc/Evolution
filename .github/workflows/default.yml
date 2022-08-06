@@ -1,8 +1,5 @@
 name: EB deploy
 on: [push]
-concurrency:
-  group: ${{ github.head_ref }}
-  cancel-in-progress: true
 jobs:
   deploy:
     runs-on: ubuntu-latest
