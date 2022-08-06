@@ -313,12 +313,12 @@ export class Units {
       unit2.incrementHealth(health1)
       unit2.incrementHunger(hunger1 * killValueMultiplier)
       unit1.incrementHealth(-1 * damageToOne)
-      spawnKillAnimation(unitRect.left, unitRect.bottom)
+      // spawnKillAnimation(unitRect.left, unitRect.bottom)
     } else if (kill2 && !kill1) {
       unit1.incrementHealth(health2)
       unit1.incrementHunger(hunger2 * killValueMultiplier)
       unit2.incrementHealth(-1 * damageToTwo)
-      spawnKillAnimation(unitRect.left, unitRect.bottom)
+      // spawnKillAnimation(unitRect.left, unitRect.bottom)
     } else if (damageToOne > damageToTwo) {
       unit2.incrementHealth(health1)
       unit2.incrementHunger(hunger1 * killValueMultiplier)
@@ -384,7 +384,7 @@ export class Units {
     unit.incrementInactive(this.INTERACTION_COOLDOWN)
     this.units.push(unit)
 
-    spawnLoveAnimation(x, y)
+    // spawnLoveAnimation(x, y)
   }
 
   __isCollision(unit1, unit2) {
