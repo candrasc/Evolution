@@ -28,7 +28,10 @@ The decision to fight or breed is currently random, but in the future it can be 
 
 ### Reproducing
 
-If the units choose to reproduce, they can only do so if they both have sufficient health and hunger. If this condition is not met they will not do anything.
+If the units choose to reproduce, they can only do so if they both have sufficient health and hunger. If this condition is not met they will not do anything. 
+
+Each time units reproduce their offspring has the average of their stats, with each stat having a chance to randomly mutate.
+
 Units spawn with too much hunger to reproduce (this prevents them the population from growing to infinity)
 
 ## Possible additions
