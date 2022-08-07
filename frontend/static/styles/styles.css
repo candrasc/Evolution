@@ -13,21 +13,7 @@ canvas {
   z-index: 100;
 }
 
-.info {
-  height: 100%;
-  width: 20%;
-  left: 100%;
-  position: fixed;
-  z-index: 10;
-  top: 0;
-  right: 0;
-  background-color: #353232;
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 60px;
-}
-
-.info .closebtn {
+.closebtn {
   position: absolute;
   top: 0;
   left: 15px;
@@ -36,7 +22,7 @@ canvas {
   color: white;
 }
 
-.info .closebtn:hover {
+.closebtn:hover {
   color: rgb(224, 125, 125);
 }
 
@@ -44,7 +30,7 @@ canvas {
   position: absolute;
   color: rgba(255, 255, 255, 0.74);
   top: 0;
-  right: 1rem;
+  left: 1rem;
   font-size: 20px;
 
   z-index: 0;
@@ -61,49 +47,11 @@ canvas {
   overflow: hidden;
   position: absolute;
   top: 1rem;
-  left: 1rem;
+  right: 1rem;
   border-radius: 1%;
   height: 50rem;
   width: 50rem;
   float: left;
-}
-
-.sliderContainer {
-  position: relative;
-  text-align: center;
-  color: #fff;
-}
-
-.slider {
-  width: 70%;
-  background: #444;
-  margin: 10px;
-  padding: 10px;
-  position: relative;
-  left: -1rem;
-}
-
-.slider input[type="range"] {
-  width: 70%;
-}
-
-.sliderTitle {
-  font-family: helvetica, arial;
-}
-
-.limitFirst {
-  position: relative;
-  font-family: helvetica, arial;
-  top: -20px;
-  left: -125px;
-}
-
-.limitSecond {
-  position: relative;
-  font-family: helvetica, arial;
-  right: -100px;
-  top: -20px;
-  text-align: center;
 }
 
 .start-screen {
@@ -181,6 +129,15 @@ canvas {
   }
 }
 
+.control-bar {
+  width: 85%;
+}
+
+output {
+  position: relative;
+  bottom: 5px;
+  left: 4px;
+}
 /* .test {
   position: absolute;
   width: 20%;
