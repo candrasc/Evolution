@@ -46,11 +46,12 @@ canvas {
 .world-container {
   overflow: hidden;
   position: absolute;
-  top: 1rem;
   right: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   border-radius: 1%;
-  height: 50rem;
-  width: 50rem;
+  height: 45rem;
+  width: 45rem;
   float: left;
 }
 
