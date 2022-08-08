@@ -44,15 +44,13 @@ canvas {
 }
 
 .world-container {
-  overflow: hidden;
-  position: absolute;
-  right: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  position: relative;
+  padding: 1rem;
+  margin-right: 1rem;
   border-radius: 1%;
   height: 45rem;
   width: 45rem;
-  float: left;
+  float: right;
 }
 
 .start-screen {

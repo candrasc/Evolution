@@ -8,7 +8,7 @@ import {
 import { spawnKillAnimation, spawnLoveAnimation } from "./utils/animations.js"
 
 export class Unit {
-  constructor(
+  constructor({
     x,
     y,
     size,
@@ -21,15 +21,16 @@ export class Unit {
     defense,
     lifespan,
     foodEfficiency,
-    friendliness
-  ) {
+    friendliness,
+    hunger = 40,
+  }) {
     this.xPos = x
     this.yPos = y
     this.radius = size
     this.currAge = 0
     this.lifeDecay = lifeDecay
     this.mutationProba = mutationProba
-    this.hungerDecay = 0.1 // Refactor as world property that is called when we increment
+    this.hungerDecay = 0.1
 
     this.coreStats = {
       attack: attack,
@@ -40,7 +41,7 @@ export class Unit {
       // friendliness: friendliness,
     }
     this.currHealth = this.coreStats.health
-    this.hunger = 40
+    this.hunger = hunger
     this.yVel = yVel
     this.xVel = xVel
     this.inactiveFrames = 0
@@ -208,6 +209,9 @@ export class Units {
     this.units = []
     this.foods = []
     this.INTERACTION_COOLDOWN = 10
+    // min stats to reproduce
+    this.MIN_HUNGER = 30
+    this.MIN_HEALTH_RATIO = 0.3
   }
   addUnit(unit) {
     this.units.push(unit)
@@ -278,7 +282,9 @@ export class Units {
         let food = this.foods[j]
 
         if (this.__isCollision(unit, food)) {
+          console.log("1: ", unit.hunger, foodValue)
           unit.incrementHunger(foodValue)
+          console.log("2: ", unit.hunger)
           food.setIsActive(false)
         }
       }
@@ -342,15 +348,20 @@ export class Units {
     const hunger2 = unit2.hunger
 
     if (
-      healthRatio1 < 0.45 ||
-      healthRatio2 < 0.45 ||
-      hunger1 < 45 ||
-      hunger2 < 45
+      healthRatio1 < this.MIN_HEALTH_RATIO ||
+      healthRatio2 < this.MIN_HEALTH_RATIO ||
+      hunger1 < this.MIN_HUNGER ||
+      hunger2 < this.MIN_HUNGER
     ) {
       return
     }
+    // Reduce hunger so can reproduce
+    unit1.hunger -= this.MIN_HUNGER
+    unit2.hunger -= this.MIN_HUNGER
 
     // set constant attributes
+    // set hunger as sum of two parents reduced hunger
+    const hunger = this.MIN_HUNGER * 2
     const x = unit1.xPos
     const y = unit1.yPos
     const lifeDecay = unit1.lifeDecay
@@ -365,21 +376,23 @@ export class Units {
     const vX = Math.random()
     const vY = Math.random()
 
-    const unit = new Unit(
-      x,
-      y,
-      unit1.radius,
-      vX,
-      vY,
-      lifeDecay,
-      mutationProba,
-      health,
-      attack,
-      defense,
-      lifespan,
-      foodEfficiency,
-      friendliness
-    )
+    var input = {
+      x: x,
+      y: y,
+      hunger: hunger,
+      size: unit1.radius,
+      xVel: vX,
+      yVel: vY,
+      lifeDecay: lifeDecay,
+      mutationProba: mutationProba,
+      health: health,
+      attack: attack,
+      defense: defense,
+      lifespan: lifespan,
+      foodEfficiency: foodEfficiency,
+      friendliness: friendliness,
+    }
+    const unit = new Unit(input)
     // Give some time before the spawned unit can interact. Prevents instant incest
     unit.incrementInactive(this.INTERACTION_COOLDOWN)
     this.units.push(unit)
