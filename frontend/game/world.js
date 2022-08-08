@@ -41,22 +41,23 @@ export class World {
         vX = unitV
         vY = unitV
       }
+      var input = {
+        x: x,
+        y: y,
+        size: unitSize,
+        xVel: vX,
+        yVel: vY,
+        lifeDecay: lifeDecay,
+        mutationProba: mutationProba,
+        health: health,
+        attack: attack,
+        defense: defense,
+        lifespan: lifespan,
+        foodEfficiency: foodEfficiency,
+        friendliness: friendliness,
+      }
 
-      const unit = new Unit(
-        x,
-        y,
-        unitSize,
-        vX,
-        vY,
-        lifeDecay,
-        mutationProba,
-        health,
-        attack,
-        defense,
-        lifespan,
-        foodEfficiency,
-        friendliness
-      )
+      const unit = new Unit(input)
       this.units.addUnit(unit)
     }
   }

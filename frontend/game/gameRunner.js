@@ -84,30 +84,30 @@ function setDamageMultiplier(value) {
 // window.addEventListener("resize", setPixelToWorldScale)
 document.addEventListener("keydown", handleStart)
 speedInput.addEventListener("mouseup", function () {
-  SIMULATION_SPEED = this.value
+  SIMULATION_SPEED = parseFloat(this.value)
   setSimulationSpeed(SIMULATION_SPEED)
 })
 killInput.addEventListener("mouseup", function () {
-  setkillValueMultiplier(this.value)
+  setkillValueMultiplier(parseFloat(this.value))
 })
 foodSpawnInput.addEventListener("mouseup", function () {
-  setFoodSpawnRate(this.value)
+  setFoodSpawnRate(parseFloat(this.value))
 })
 foodValueInput.addEventListener("mouseup", function () {
-  setFoodValue(this.value)
+  setFoodValue(parseFloat(this.value))
 })
 killInput.addEventListener("mouseup", function () {
-  setkillValueMultiplier(this.value)
+  setkillValueMultiplier(parseFloat(this.value))
 })
 mutationInput.addEventListener("mouseup", function () {
-  setMutationProba(this.value)
+  setMutationProba(parseFloat(this.value))
 })
 damageInput.addEventListener("mouseup", function () {
-  setDamageMultiplier(this.value)
+  setDamageMultiplier(parseFloat(this.value))
 })
 
 hungerDecayInput.addEventListener("mouseup", function () {
-  setHungerDecay(this.value)
+  setHungerDecay(parseFloat(this.value))
 })
 
 function handleStart(e) {
