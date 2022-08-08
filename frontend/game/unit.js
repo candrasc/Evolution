@@ -282,9 +282,7 @@ export class Units {
         let food = this.foods[j]
 
         if (this.__isCollision(unit, food)) {
-          console.log("1: ", unit.hunger, foodValue)
           unit.incrementHunger(foodValue)
-          console.log("2: ", unit.hunger)
           food.setIsActive(false)
         }
       }
