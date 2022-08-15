@@ -1,6 +1,6 @@
 services:
   app:
-    image: "candrac/evolution"
+    image: "evolution"
     command: "uvicorn app:app --reload --port 5000 --host 0.0.0.0"
     build: .
     ports:

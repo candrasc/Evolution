@@ -16,7 +16,7 @@ export class World {
 
   __setFoodImage() {
     const image = new Image()
-    image.src = "game/imgs/food2.png"
+    image.src = "evolution/imgs/food2.png"
     return image
   }
 
