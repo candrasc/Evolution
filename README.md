@@ -16,7 +16,7 @@ Units also have other stats like the probability to mutate and hunger which are 
 
 You can press space to pause or unpause a simulation. On the lefthand side you have a control panel that will change evironment conditions in realtime. The most noticeable are speed and mutation rate, but the rest can be very useful. For example, if your simulation is starting to ramp up to fast and too many units are spawning, you can increase hunger decay or food spawn rate to bring the population back under control.
 
-## Interaction
+## Key Mechanics
 
 Units can either fight, reproduce, or do nothing upon contact.
 
