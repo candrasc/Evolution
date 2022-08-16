@@ -16,7 +16,7 @@ Units can either fight, reproduce, or do nothing upon contact.
 
 The decision to fight or breed is currently random, but in the future it can be based off of the Cosine Similarity of the corestats of the two units. The more similar the more likely to reproduce, and the more different, the more likely they fight.
 
-### Fighting:
+### Fighting
 
 - Damage is caclulated by the max of one units offense less the other units defense or 0; whichever is greater
 
