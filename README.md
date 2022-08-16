@@ -6,7 +6,7 @@ Github Actions auto deploys newest version on merge to main.
 
 ## Base of Game
 
-Units have a set of core stats that sum to 100 in total. Currently we have Health, Attack, Defense, Food Effeciency, Life Span. These core stats determine the color of the unit.(Just attack, defense, and health for now)
+Units have a set of core stats that sum to 100 in total. Currently we have Health, Attack, Defense, Food Effeciency, Life Span. These core stats determine the color of the unit. Just attack, defense, and health are active for now as I balance these existing stats so nothing is dominant under all environment permutations.
 
 Units also have other stats like the probability to mutate and hunger which are not part of the core stats. Hunger decays over time and can be replenished by killing or eating.
 
