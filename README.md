@@ -34,10 +34,3 @@ Each time units reproduce their offspring has the average of their stats, with e
 
 Units spawn with too much hunger to reproduce (this prevents them the population from growing to infinity)
 
-## Possible additions
-
-#### Regions
-
-Segment the screen into different regions. Each region has different properties. Forest spawns more food, dessert is open with less food and water, mountains are veyr hard to move in without movement attributes
-
-Units bounce within the region they spawned in, with a small chance to escape into a different region.
