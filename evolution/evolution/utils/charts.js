@@ -40,7 +40,6 @@ let myChart = new Chart(ctx, {
 })
 
 export function updateChart(data) {
-  console.log(myChart.data.datasets[0]["data"])
   myChart.data.datasets[0]["data"] = data
   myChart.update()
 }

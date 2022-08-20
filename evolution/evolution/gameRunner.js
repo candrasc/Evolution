@@ -35,7 +35,6 @@ canvas.height = canvas.offsetHeight
 const ctx = canvas.getContext("2d")
 
 // screenelements
-const chart = document.getElementById("myChart").getContext("2d")
 const startScreenElem = document.querySelector("[data-start-screen]")
 const unpauseScreenElem = document.querySelector("[data-unpause-screen]")
 const speedInput = document.getElementById("speedSlider")
