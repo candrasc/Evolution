@@ -1,6 +1,6 @@
 # Evolution
 
-Evolution Simulator hosted on AWS Elasticbeanstalk: http://evolution-env.eba-uqppjpfu.us-east-1.elasticbeanstalk.com/. Watch dominant traits emerge, represented by unit color (red: attack, green: health, blue: defense)
+Evolution Simulator hosted on AWS Elasticbeanstalk: http://evolution-env.eba-uqppjpfu.us-east-1.elasticbeanstalk.com/. Watch dominant traits emerge, represented by unit color. Make sure you manage the environment parameters to stop the population from getting out of control or collapsing!
 
 Github Actions auto deploys newest version on merge to main. 
 
