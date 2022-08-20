@@ -5,7 +5,7 @@ let myChart = new Chart(ctx, {
     labels: ["Attack", "Defense", "Health"],
     datasets: [
       {
-        label: "Trait Distribution",
+        label: "Trait Dominance Percentage",
         data: [0, 0, 0],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
