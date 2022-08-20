@@ -26,11 +26,12 @@ export class World {
       defense: 0,
       health: 0,
     }
-    this.units.units.forEach((unit) => {
+    const units = this.units.units
+    units.forEach((unit) => {
       let curr_stats = unit.getStats()
-      stats["attack"] += curr_stats["attack"]
-      stats["defense"] += curr_stats["defense"]
-      stats["health"] += curr_stats["health"]
+      stats["attack"] += curr_stats["attack"] / units.length
+      stats["defense"] += curr_stats["defense"] / units.length
+      stats["health"] += curr_stats["health"] / units.length
     })
     return stats
   }
