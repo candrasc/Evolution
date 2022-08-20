@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/candrasc/Evolution#readme",
   "dependencies": {
-    "chart.js": "^3.7.0",
-    "flot": "^4.2.2"
+    "chart.js": "^3.9.1"
   }
 }

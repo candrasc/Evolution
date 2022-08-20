@@ -1,8 +1,8 @@
-*,
+/* *,
 *::before,
 *::after {
   box-sizing: border-box;
-}
+} */
 
 body {
   background-color: #121212;
@@ -11,6 +11,11 @@ body {
 canvas {
   background-color: #353232;
   z-index: 100;
+}
+
+.col,
+.col-6 {
+  margin-top: 2rem;
 }
 
 #dna {
@@ -48,14 +53,16 @@ canvas {
   cursor: pointer;
 }
 
-.world-container {
+#myChart {
   position: relative;
-  padding: 1rem;
-  margin-right: 1rem;
+  width: 100%;
+  height: 100%;
+}
+
+.world-container {
   border-radius: 1%;
-  height: 45rem;
-  width: 45rem;
-  float: right;
+  height: 100%;
+  width: 100%;
 }
 
 .start-screen {
@@ -65,7 +72,7 @@ canvas {
   font-weight: bolder;
   color: white;
 
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 100;

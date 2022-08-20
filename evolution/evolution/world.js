@@ -20,6 +20,21 @@ export class World {
     return image
   }
 
+  getUnitStats() {
+    let stats = {
+      attack: 0,
+      defense: 0,
+      health: 0,
+    }
+    this.units.units.forEach((unit) => {
+      let curr_stats = unit.getStats()
+      stats["attack"] += curr_stats["attack"]
+      stats["defense"] += curr_stats["defense"]
+      stats["health"] += curr_stats["health"]
+    })
+    return stats
+  }
+
   spawnUnits(numUnits, unitSize, unitV, lifeDecay) {
     for (let i = 0; i < numUnits; i++) {
       const mutationProba = 1 / 1000

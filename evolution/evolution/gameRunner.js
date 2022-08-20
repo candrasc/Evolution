@@ -1,5 +1,6 @@
 import { Unit } from "./unit.js"
 import { World } from "./world.js"
+import { updateChart } from "./utils/charts.js"
 
 let NUM_UNITS = 100
 let NUM_FOOD = 10
@@ -34,6 +35,7 @@ canvas.height = canvas.offsetHeight
 const ctx = canvas.getContext("2d")
 
 // screenelements
+const chart = document.getElementById("myChart").getContext("2d")
 const startScreenElem = document.querySelector("[data-start-screen]")
 const unpauseScreenElem = document.querySelector("[data-unpause-screen]")
 const speedInput = document.getElementById("speedSlider")
@@ -158,15 +160,16 @@ function update(time) {
     lastTime = time
     then = now - (elapsed % FPS_INTERVAL)
 
-    if (FOOD_SPAWN_RATE == 0) {
-    } else if (
-      frameCount % Math.max(Math.round(FPS / FOOD_SPAWN_RATE), 1) ==
-      0
+    if (
+      FOOD_SPAWN_RATE != 0 &&
+      frameCount % Math.max(Math.round(FPS / FOOD_SPAWN_RATE), 1) == 0
     ) {
       world.spawnFood(1, FOOD_SIZE)
     }
-    if (frameCount % 1000 == 0) {
-      world.cleanUpAnimations()
+
+    if (frameCount % 10 == 0) {
+      let stats = world.getUnitStats()
+      updateChart([stats["attack"], stats["defense"], stats["health"]])
       frameCount = 0
     }
 
